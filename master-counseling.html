@@ -105,6 +105,7 @@
   .mc-info-right .big{ font-size:clamp(24px,2.8vw,34px); font-weight:800; color:#1a1a1f; line-height:1.35; margin:0; }
   @media (max-width:860px){
     .mc-info-inner{ flex-direction:column; gap:32px; padding:32px 24px 0; }
+    .mc-info-inner::before{ left:24px; right:24px; }
   }
 
   /* ============ SWIPE CTA ============ */
@@ -156,6 +157,7 @@
   .invicta-footer .contact-text a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; }
   .invicta-footer .footer-copyright{ font-size:14px; color:rgba(255,255,255,.7); }
   @media (max-width:992px){
+    .invicta-footer{ padding-left:24px; padding-right:24px; }
     .invicta-footer .footer-top, .invicta-footer .footer-bottom{ flex-direction:column; text-align:center; }
     .invicta-footer .footer-logo{ order:-1; }
     .invicta-footer .footer-nav nav{ justify-content:center; }

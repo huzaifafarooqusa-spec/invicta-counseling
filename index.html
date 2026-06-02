@@ -90,11 +90,15 @@
   .hero-skyline{ margin-top:-50px; width:100%; display:block; }
   .hero-skyline img{ width:100%; height:auto; display:block; }
   @media (max-width:900px){
-    .hero{ padding:90px 16px 0; min-height:auto; }
-    .hero .fall-tag{ font-size:20px; letter-spacing:4px; }
+    .hero{ padding:60px 16px 0; min-height:auto; }
+    .hero-content{ padding-top:20px; }
+    .hero .fall-tag{ font-size:20px; letter-spacing:4px; margin-bottom:12px; }
+    .hero .sub{ margin-top:20px; }
+    .hero-skyline{ margin-top:-20px; }
   }
   @media (max-width:560px){
-    .hero{ padding:70px 16px 0; }
+    .hero{ padding:46px 16px 0; }
+    .hero-content{ padding-top:10px; }
     .hero .fall-tag{ font-size:16px; letter-spacing:3px; }
     .hero .sub{ font-size:15px; }
   }
@@ -123,13 +127,13 @@
   @media (max-width:860px){
     .experience-top{ flex-direction:column; }
     .experience-art{ flex:none; max-height:300px; }
-    .experience-art img{ width:100%; height:300px; object-fit:cover; object-position:top; }
+    .experience-art img{ width:100%; height:300px; object-fit:cover; object-position:top; transform:none; }
     .experience-text{ padding:40px 6vw; }
     .stats-bar{ padding:40px 6vw; }
-    .stat-grid{ gap:32px 40px; }
+    .stat-grid{ gap:32px 40px; padding-left:0; max-width:520px; }
   }
   @media (max-width:560px){
-    .stat-grid{ grid-template-columns:1fr; gap:24px; }
+    .stat-grid{ grid-template-columns:1fr; gap:24px; padding-left:0; }
   }
 
   /* ============ OUR ACCEPTANCES (sticky scroll) ============ */
@@ -293,6 +297,7 @@
   .invicta-footer .contact-text a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; }
   .invicta-footer .footer-copyright{ font-size:14px; color:rgba(255,255,255,.7); }
   @media (max-width:992px){
+    .invicta-footer{ padding-left:24px; padding-right:24px; }
     .invicta-footer .footer-top, .invicta-footer .footer-bottom{ flex-direction:column; text-align:center; }
     .invicta-footer .footer-logo{ order:-1; }
     .invicta-footer .footer-nav nav{ justify-content:center; }
@@ -689,12 +694,16 @@
     let cur=0;
     let cooldown=false;
 
-    function setHeight(){ section.style.height=(numRows*60+40)+'vh'; }
+    function isMobile(){ return window.matchMedia('(max-width:860px)').matches; }
+    function setHeight(){
+      if(isMobile()){ section.style.height='auto'; track.style.transform=''; }
+      else{ section.style.height=(numRows*60+40)+'vh'; }
+    }
     setHeight();
     window.addEventListener('resize',setHeight);
 
     function goTo(n){
-      if(cooldown) return;
+      if(cooldown||isMobile()) return;
       n=Math.max(0,Math.min(numRows-1,n));
       cur=n;
       const rowH=track.children[0].offsetHeight;
@@ -712,6 +721,7 @@
     /* wheel capture while section sticky */
     let wheelDelta=0;
     window.addEventListener('wheel',function(e){
+      if(isMobile()) return;
       const rect=section.getBoundingClientRect();
       const sticky=rect.top<=1 && rect.bottom>=window.innerHeight-1;
       if(!sticky) return;
@@ -725,6 +735,7 @@
 
     /* sync from scroll position */
     function syncScroll(){
+      if(isMobile()) return;
       const scrolled=window.scrollY-section.offsetTop;
       const total=section.offsetHeight-window.innerHeight;
       const progress=Math.max(0,Math.min(1,scrolled/total));
