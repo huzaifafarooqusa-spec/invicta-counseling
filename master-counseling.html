@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Master's Counseling — Invicta Counseling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root{ --blue:#0E2D5B; --yellow:#FCB040; --hdrH:64px; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:'Outfit',sans-serif; color:#0E2D5B; background:#fff; }
+  img{ max-width:100%; display:block; }
+
+  /* ============ HEADER ============ */
+  .invicta-header{ position:sticky; top:0; width:100%; background:#fff; box-shadow:0 2px 10px rgba(0,0,0,.05); z-index:999999; isolation:isolate; }
+  .invicta-header .header-bar{ display:flex; align-items:center; gap:24px; padding:20px 60px; }
+  .invicta-header .header-logo img{ max-width:190px; display:block; }
+  .invicta-header .header-right{ margin-left:auto; display:flex; align-items:center; gap:24px; overflow:visible; }
+  .invicta-header nav ul{ display:flex; align-items:center; gap:28px; list-style:none; margin:0; padding:0; }
+  .invicta-header nav>ul>li{ position:relative; }
+  .invicta-header nav>ul>li>a, .invicta-header .dropbtn{ color:var(--blue); font-size:16px; font-weight:500; text-decoration:none; position:relative; padding:10px 0; transition:color .25s ease; cursor:pointer; }
+  .invicta-header .dropbtn{ background:transparent; border:0; appearance:none; display:inline-flex; align-items:center; gap:8px; font-family:inherit; font-size:16px; font-weight:500; }
+  .invicta-header nav>ul>li>a::after, .invicta-header .dropbtn::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--blue); transform:scaleX(0); transform-origin:center; transition:transform .3s ease; }
+  .invicta-header nav>ul>li>a:hover, .invicta-header .dropdown:hover .dropbtn, .invicta-header .dropdown:focus-within .dropbtn{ color:var(--yellow); }
+  .invicta-header nav>ul>li>a:hover::after, .invicta-header .dropdown:hover .dropbtn::after{ transform:scaleX(1); }
+  .invicta-header .caret{ width:12px; height:12px; color:currentColor; transition:transform .25s; }
+  .invicta-header .dropdown:hover .caret, .invicta-header .dropdown.open .caret{ transform:rotate(180deg); }
+  .invicta-header .dropdown::after{ content:""; position:absolute; left:0; right:0; top:100%; height:18px; }
+  .invicta-header .dropdown-content{ position:absolute; left:0; top:100%; min-width:220px; padding:8px; margin-top:0; background:#fff; color:var(--blue); border:1px solid rgba(14,45,91,.12); border-radius:12px; box-shadow:0 14px 30px rgba(0,0,0,.18),0 3px 10px rgba(0,0,0,.12); opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px) scale(.98); transition:opacity .18s, transform .18s, visibility 0s linear .18s; z-index:1000000; }
+  .invicta-header .dropdown:hover>.dropdown-content, .invicta-header .dropdown:focus-within>.dropdown-content{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(12px) scale(1); }
+  .invicta-header .dropdown-content a{ display:block; padding:12px 14px; margin:2px; border-radius:8px; color:var(--blue); text-decoration:none; font-size:15px; font-weight:500; transition:background .2s, transform .12s; }
+  .invicta-header .dropdown-content a:hover{ background:linear-gradient(90deg, rgba(252,176,64,.16), rgba(252,176,64,.06) 60%, transparent); transform:translateX(2px); }
+  /* footer-style enhanced dropdown */
+  .invicta-header .dropdown-content::before{ content:""; position:absolute; top:-6px; left:18px; width:12px; height:12px; background:#fff; transform:rotate(45deg); border-left:1px solid rgba(14,45,91,.12); border-top:1px solid rgba(14,45,91,.12); }
+  .invicta-header .cta-dropdown-content::before{ left:auto; right:18px; }
+  .invicta-header .dropdown-content a{ position:relative; }
+  .invicta-header .dropdown-content a::before{ content:""; position:absolute; left:8px; top:8px; bottom:8px; width:3px; border-radius:2px; background:var(--yellow); opacity:0; transform:scaleY(.4); transition:transform .22s ease, opacity .22s ease; }
+  .invicta-header .dropdown-content a:hover::before{ opacity:1; transform:scaleY(1); }
+  .invicta-header .header-button{ background:var(--blue); color:#fff; text-decoration:none; padding:10px 16px; border-radius:10px; font-weight:700; white-space:nowrap; transition:all .25s ease; }
+  .invicta-header button.header-button{ border:none; cursor:pointer; font-size:15px; font-family:inherit; display:inline-flex; align-items:center; gap:6px; }
+  .invicta-header .header-cta-dropdown{ position:relative; }
+  .invicta-header .header-cta-dropdown .dropbtn::after{ display:none; }
+  .invicta-header .header-cta-dropdown:hover .dropbtn, .invicta-header .header-cta-dropdown:focus-within .dropbtn{ background:var(--yellow); color:var(--blue); transform:translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,.1); }
+  .invicta-header .cta-dropdown-content{ left:auto; right:0; }
+  .invicta-header .mobile-toggle{ display:none; margin-left:auto; width:44px; height:44px; border:0; background:transparent; position:relative; cursor:pointer; }
+  .invicta-header .mobile-toggle::before{ content:""; position:absolute; inset:0; background:var(--blue); border-radius:12px; box-shadow:0 2px 6px rgba(14,45,91,.24); }
+  .invicta-header .mobile-toggle span{ position:absolute; left:10px; right:10px; height:2px; background:#fff; border-radius:2px; transition:transform .25s, opacity .2s; }
+  .invicta-header .mobile-toggle span:nth-child(1){ top:14px; }
+  .invicta-header .mobile-toggle span:nth-child(2){ top:21px; }
+  .invicta-header .mobile-toggle span:nth-child(3){ top:28px; }
+  .invicta-header .mobile-toggle.active span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .invicta-header .mobile-toggle.active span:nth-child(2){ opacity:0; }
+  .invicta-header .mobile-toggle.active span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .invicta-header .nav-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.35); opacity:0; visibility:hidden; transition:.2s; z-index:999998; }
+  .invicta-header .nav-backdrop.show{ opacity:1; visibility:visible; }
+  @media (max-width:992px){
+    .invicta-header .header-bar{ padding:12px 16px; }
+    .invicta-header .mobile-toggle{ display:block; }
+    .invicta-header .header-right{ display:none; position:fixed; left:0; right:0; top:var(--hdrH); width:100vw; background:#fff; box-shadow:0 12px 24px rgba(0,0,0,.12); padding:22px 18px 22px; z-index:999999; border-bottom:1px solid rgba(14,45,91,.08); border-radius:0 0 18px 18px; }
+    .invicta-header .header-right.active{ display:block; }
+    .invicta-header nav ul{ flex-direction:column; align-items:flex-start; width:100%; gap:10px; }
+    .invicta-header nav>ul>li>a, .invicta-header .dropbtn{ width:100%; padding:16px 10px; font-size:18px; line-height:1.4; }
+    .invicta-header nav>ul>li>a::after, .invicta-header .dropbtn::after{ display:none; }
+    .invicta-header .dropdown-content{ position:static; box-shadow:none; border:1px solid rgba(14,45,91,.08); margin:8px 0 10px; border-radius:10px; padding:8px; display:none; opacity:1; visibility:visible; transform:none; transition:none; }
+    .invicta-header .dropdown.open .dropdown-content{ display:block; }
+    .invicta-header .dropdown-content::before{ display:none; }
+    .invicta-header .dropdown-content a{ padding:12px 12px; font-size:16px; }
+    .invicta-header button.header-button{ display:flex; justify-content:center; width:100%; margin-top:16px; padding:14px 20px; border-radius:12px; font-size:16px; }
+    .invicta-header .cta-dropdown-content{ right:auto; left:0; }
+  }
+
+  /* ============ HERO ============ */
+  .mc-hero{ background:#fff; }
+  .mc-hero-inner{ display:flex; align-items:center; gap:40px; padding:70px 60px; }
+  .mc-hero-copy{ flex:1; }
+  .mc-hero-copy h1{ margin:0 0 24px; font-size:clamp(40px,5vw,60px); font-weight:800; color:var(--blue); line-height:1.1; }
+  .mc-hero-copy p{ font-size:16px; line-height:1.8; color:#444; margin:0 0 32px; max-width:520px; }
+  .mc-btn{ display:inline-flex; align-items:center; gap:10px; background:var(--blue); color:#fff; text-decoration:none; padding:13px 26px; border-radius:8px; font-weight:700; font-size:15px; transition:all .25s ease; }
+  .mc-btn:hover{ background:var(--yellow); color:var(--blue); }
+  .mc-hero-art{ flex:0 0 46%; display:flex; justify-content:center; }
+  .mc-hero-art img{ width:100%; max-width:480px; height:auto; border-radius:50%; }
+  @media (max-width:860px){
+    .mc-hero-inner{ flex-direction:column; padding:50px 24px; gap:30px; }
+    .mc-hero-copy p{ max-width:none; }
+    .mc-hero-art{ flex:none; max-width:280px; }
+  }
+
+  /* ============ INFO SECTION ============ */
+  .mc-info{ background:#fff; padding:30px 0 80px; }
+  .mc-info-inner{ display:flex; gap:60px; align-items:flex-start; padding:40px 60px 0; }
+  .mc-info-inner::before{ content:""; position:absolute; left:60px; right:60px; height:1px; background:#e6e6e6; margin-top:-40px; }
+  .mc-info-inner{ position:relative; }
+  .mc-info-left{ flex:1.2; }
+  .mc-info-left h2{ font-size:22px; font-weight:800; color:var(--blue); margin:0 0 16px; }
+  .mc-info-left h2.spaced{ margin-top:36px; }
+  .mc-info-left ul{ margin:0; padding:0 0 0 0; list-style:none; }
+  .mc-info-left li{ position:relative; padding-left:24px; font-size:15px; line-height:1.7; color:#555; margin-bottom:12px; }
+  .mc-info-left li::before{ content:""; position:absolute; left:0; top:9px; width:9px; height:9px; border-radius:50%; background:var(--yellow); }
+  .mc-info-right{ flex:1; }
+  .mc-info-right h2{ font-size:22px; font-weight:800; color:var(--blue); margin:0 0 12px; }
+  .mc-info-right .lead{ font-size:15px; line-height:1.7; color:#555; margin:0 0 20px; }
+  .mc-info-right .big{ font-size:clamp(24px,2.8vw,34px); font-weight:800; color:#1a1a1f; line-height:1.35; margin:0; }
+  @media (max-width:860px){
+    .mc-info-inner{ flex-direction:column; gap:32px; padding:32px 24px 0; }
+  }
+
+  /* ============ SWIPE CTA ============ */
+  .cta-container{ display:flex; align-items:center; justify-content:space-between; background-color:var(--yellow); padding:15px 30px; border-radius:25px; max-width:900px; margin:40px auto; }
+  .cta-content{ display:flex; align-items:center; gap:20px; }
+  .cta-icon img{ width:60px; height:60px; border-radius:50%; }
+  .cta-text h3{ margin:0; font-size:22px; font-weight:900; color:#000; line-height:1.2; letter-spacing:.4px; }
+  .cta-text h3 span{ font-weight:500; font-size:26px; letter-spacing:2.8px; }
+  .animated-button{ display:flex; align-items:center; background-color:#21406E; color:#fff; padding:12px 14px; border-radius:50px; text-decoration:none; overflow:hidden; width:140px; height:56px; box-sizing:border-box; position:relative; transition:all .4s ease; }
+  .button-text{ position:absolute; left:20px; font-weight:700; white-space:nowrap; opacity:0; transform:translateX(-10px); transition:opacity .4s ease .1s, transform .4s ease .1s; color:#fff; }
+  .button-arrow{ display:flex; align-items:center; justify-content:center; background-color:#fff; border-radius:50%; width:32px; height:32px; flex-shrink:0; position:absolute; left:12px; transition:left .5s cubic-bezier(.76,0,.24,1); }
+  .button-arrow svg{ width:18px; height:18px; color:#21406E; }
+  .animated-button:hover .button-text{ opacity:1; transform:translateX(0); }
+  .animated-button:hover .button-arrow{ left:calc(100% - 32px - 12px); }
+  @media (max-width:768px){
+    .cta-container{ flex-direction:column; gap:20px; text-align:center; border-radius:20px; }
+    .cta-content{ flex-direction:column; }
+    .cta-text h3{ font-size:20px; }
+    .cta-text h3 span{ font-size:18px; letter-spacing:2px; }
+  }
+
+  /* ============ FOOTER ============ */
+  .invicta-footer{ background-color:var(--blue); color:#fff; padding:80px 60px 60px; }
+  .invicta-footer .footer-container{ margin:auto; }
+  .invicta-footer .footer-top{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:30px; padding-bottom:45px; }
+  .invicta-footer .footer-logo img{ max-width:180px; }
+  .invicta-footer .footer-nav nav{ display:flex; gap:35px; flex-wrap:wrap; align-items:center; }
+  .invicta-footer .footer-nav a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; transition:color .3s ease; }
+  .invicta-footer .footer-nav a.nav-link-grey{ color:rgba(255,255,255,.7); }
+  .invicta-footer .footer-nav a:hover, .invicta-footer .dropdown:hover .dropbtn{ color:var(--yellow); }
+  .invicta-footer .dropdown{ position:relative; display:inline-block; }
+  .invicta-footer .dropbtn{ color:rgba(255,255,255,.85); font-size:16px; font-weight:500; cursor:pointer; padding:20px 0; margin:-20px 0; display:inline-flex; align-items:center; gap:8px; }
+  .invicta-footer .dropbtn .caret{ width:12px; height:12px; transition:transform .25s ease; display:inline-block; }
+  .invicta-footer .dropdown:hover .dropbtn .caret, .invicta-footer .dropdown:focus-within .dropbtn .caret{ transform:rotate(180deg); color:var(--yellow); }
+  .invicta-footer .dropdown-content{ position:absolute; left:0; top:100%; min-width:220px; background:rgba(255,255,255,.98); color:var(--blue); border-radius:10px; box-shadow:0 14px 30px rgba(0,0,0,.18),0 3px 10px rgba(0,0,0,.12); border:1px solid rgba(14,45,91,.12); padding:8px; margin-top:0; z-index:10; opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px) scale(.98); transition:opacity .18s ease, transform .18s ease, visibility 0s linear .18s; }
+  .invicta-footer .dropdown:hover .dropdown-content, .invicta-footer .dropdown:focus-within .dropdown-content{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(12px) scale(1); transition-delay:0s; }
+  .invicta-footer .dropdown-content a{ display:block; text-decoration:none; color:var(--blue); padding:10px 14px; border-radius:8px; font-size:15px; font-weight:500; transition:background .22s ease; margin:2px; }
+  .invicta-footer .dropdown-content a:hover{ background:linear-gradient(90deg, rgba(252,176,64,.16), rgba(252,176,64,.06) 60%, transparent); }
+  .invicta-footer .footer-social{ display:flex; gap:15px; }
+  .invicta-footer .footer-social a{ display:flex; align-items:center; justify-content:center; width:40px; height:40px; border:1.5px solid #fff; border-radius:50%; transition:all .3s ease; }
+  .invicta-footer .footer-social a:hover{ border-color:var(--yellow); }
+  .invicta-footer .footer-social a:hover svg{ fill:var(--yellow); }
+  .invicta-footer .footer-social svg{ width:20px; height:20px; fill:#fff; transition:fill .3s ease; }
+  .invicta-footer .footer-bottom{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:30px; padding-top:45px; border-top:1px solid rgba(255,255,255,.3); }
+  .invicta-footer .footer-contact{ display:flex; gap:50px; flex-wrap:wrap; }
+  .invicta-footer .contact-item{ display:flex; align-items:center; gap:15px; }
+  .invicta-footer .contact-icon img{ width:45px; height:45px; }
+  .invicta-footer .contact-text span{ display:block; font-size:14px; color:rgba(255,255,255,.7); }
+  .invicta-footer .contact-text a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; }
+  .invicta-footer .footer-copyright{ font-size:14px; color:rgba(255,255,255,.7); }
+  @media (max-width:992px){
+    .invicta-footer .footer-top, .invicta-footer .footer-bottom{ flex-direction:column; text-align:center; }
+    .invicta-footer .footer-logo{ order:-1; }
+    .invicta-footer .footer-nav nav{ justify-content:center; }
+    .invicta-footer .footer-bottom{ padding-top:30px; margin-top:30px; }
+    .invicta-footer .dropdown-content{ left:50%; transform:translate(-50%,8px) scale(.98); }
+    .invicta-footer .dropdown:hover .dropdown-content, .invicta-footer .dropdown:focus-within .dropdown-content{ transform:translate(-50%,12px) scale(1); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="invicta-header">
+  <div class="header-bar">
+    <a href="index.html" class="header-logo" aria-label="Invicta Home">
+      <img src="logo%20blue.png" alt="Invicta Counseling Logo" onerror="this.src='https://invicta-counseling.org/wp-content/uploads/2022/08/cropped-Untitled-2-1-2.png'">
+    </a>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" aria-controls="header-right" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-right" id="header-right">
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li class="dropdown">
+            <button type="button" class="dropbtn" aria-haspopup="true" aria-expanded="false" aria-controls="offer-menu">
+              What We Offer
+              <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+            </button>
+            <div class="dropdown-content" id="offer-menu" role="menu">
+              <a href="index.html" role="menuitem">Undergraduate Counseling</a>
+              <a href="probono.html" role="menuitem">Pro Bono Seats</a>
+              <a href="profile-building.html" role="menuitem">Profile Building</a>
+              <a href="master-counseling.html" role="menuitem">Master's Counseling</a>
+            </div>
+          </li>
+          <li><a href="blogs.html">Blogs</a></li>
+          <li><a href="about.html">About Us</a></li>
+        </ul>
+      </nav>
+      <div class="dropdown header-cta-dropdown">
+        <button type="button" class="header-button dropbtn" aria-haspopup="true" aria-expanded="false" aria-controls="cta-menu">
+          Book Now
+          <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+        </button>
+        <div class="dropdown-content cta-dropdown-content" id="cta-menu" role="menu">
+          <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Undergraduate Counseling</a>
+          <a href="https://form.asana.com/?k=d3CR-iZLk2vxBxOdeE1Sig&d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Pro Bono Seats</a>
+          <a href="https://form.asana.com/?k=uAo75kRr_KeA3Fmzf-_8Sg&d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Profile Building</a>
+          <a href="https://form.asana.com/?k=odA8_V8bwx4GhKWsyxEfjA&d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Master's Counseling</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop"></div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="mc-hero">
+  <div class="mc-hero-inner">
+    <div class="mc-hero-copy">
+      <h1>Master's<br>Counseling</h1>
+      <p>Applying for a Master's degree abroad isn't just about filling out forms. It's about positioning yourself as a future researcher, professional, or leader in your field. At Invicta, we help you shape your unique story and guide you step by step so you can build a standout profile, craft powerful applications, and achieve your goal of admission to top universities.</p>
+      <a href="https://form.asana.com/?k=odA8_V8bwx4GhKWsyxEfjA&d=1202351936141031" target="_blank" rel="noopener" class="mc-btn">Apply Now
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+    <div class="mc-hero-art">
+      <img src="master%20counseling%20page%20/seat-03%201.png" alt="Master's Counseling">
+    </div>
+  </div>
+</section>
+
+<!-- ============ INFO ============ -->
+<section class="mc-info">
+  <div class="mc-info-inner">
+    <div class="mc-info-left">
+      <h2>Who Is This For?</h2>
+      <ul>
+        <li>Undergraduate students planning for graduate school</li>
+        <li>Recent graduates ready to strengthen their career path with a Master's</li>
+        <li>Applicants targeting scholarships, research-based, or professional programs</li>
+      </ul>
+      <h2 class="spaced">Why Choose Invicta?</h2>
+      <ul>
+        <li>Personalized roadmap with students admitted to top global universities</li>
+        <li>Guidance from mentors who've studied internationally themselves</li>
+        <li>A personalized roadmap so your application reflects your unique strengths</li>
+      </ul>
+    </div>
+    <div class="mc-info-right">
+      <h2>Take the Next Step</h2>
+      <p class="lead">Your Master's isn't just another degree. It's your launchpad into global opportunities.</p>
+      <p class="big">Book a <strong style="color:var(--blue);">Free Consultation</strong> today and take the first step toward your dream university.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SWIPE CTA ============ -->
+<div class="cta-container">
+  <div class="cta-content">
+    <div class="cta-icon"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/news-1.png" alt="College Application Icon"></div>
+    <div class="cta-text"><h3><span>SWIPE TO START YOUR</span><br>APPLICATION JOURNEY NOW!</h3></div>
+  </div>
+  <a href="https://form.asana.com/?k=odA8_V8bwx4GhKWsyxEfjA&d=1202351936141031" target="_blank" class="animated-button">
+    <span class="button-text">Book Now</span>
+    <span class="button-arrow">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </span>
+  </a>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="invicta-footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-logo"><a href="index.html"><img src="footer%20logo%20white%20%201.png" alt="Invicta Counseling Logo" onerror="this.src='https://invicta-counseling.org/wp-content/uploads/2022/12/new-logowhite-1-e1754768434959.png'"></a></div>
+      <div class="footer-nav">
+        <nav>
+          <a href="index.html">Home</a>
+          <div class="dropdown">
+            <span class="dropbtn" tabindex="0" aria-haspopup="true">What We Offer
+              <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+            </span>
+            <div class="dropdown-content" role="menu">
+              <a href="index.html" role="menuitem">Undergraduate Counseling</a>
+              <a href="probono.html" role="menuitem">Pro Bono Seats</a>
+              <a href="profile-building.html" role="menuitem">Profile Building</a>
+              <a href="master-counseling.html" role="menuitem">Master's Counseling</a>
+            </div>
+          </div>
+          <a href="blogs.html" class="nav-link-grey">Blogs</a>
+          <a href="about.html" class="nav-link-grey">About Us</a>
+        </nav>
+      </div>
+      <div class="footer-social">
+        <a href="https://wa.me/923175711520" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.52 3.48A11.77 11.77 0 0 0 12.02 1C5.46 1 .12 6.34.12 12.9c0 2.1.55 4.15 1.6 5.97L0 24l6.28-1.64a11.9 11.9 0 0 0 5.73 1.47h.01c6.62 0 11.96-5.32 11.96-11.9 0-3.2-1.25-6.2-3.46-8.45ZM12 21.4a9.5 9.5 0 1 1 0-19 9.5 9.5 0 0 1 0 19Zm5.43-7.15c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.16-.2.31-.77.97-.95 1.17-.18.21-.35.23-.65.08-.3-.15-1.25-.46-2.39-1.47-.88-.77-1.48-1.72-1.66-2-.17-.31 0-.47.13-.62.13-.15.3-.38.45-.57.15-.18.2-.31.3-.52.1-.2.05-.39-.03-.54-.08-.16-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.08-.79.38-.27.31-1.03 1-1.03 2.44s1.06 2.83 1.2 3.02c.15.2 2.08 3.17 5.03 4.45.7.3 1.24.48 1.66.62.7.22 1.34.19 1.84.12.56-.08 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.43-.07-.14-.27-.22-.56-.37Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/invicta-career-counseling" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        <a href="https://www.facebook.com/InvictaCounseling" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+        <a href="https://www.instagram.com/invictacounseling/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-contact">
+        <div class="contact-item"><div class="contact-icon"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/Button.png" alt="Call Icon"></div><div class="contact-text"><span>Have a question?</span><a href="tel:+923175711520">+92 317 5711520</a></div></div>
+        <div class="contact-item"><div class="contact-icon"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/Buttonmail.png" alt="Mail Icon"></div><div class="contact-text"><span>Or write to us @</span><a href="mailto:support@invicta-counseling.org">support@invicta-counseling.org</a></div></div>
+      </div>
+      <div class="footer-copyright">© 2026 Invicta Counselling, All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    const burger=document.getElementById('mobile-toggle');
+    const right=document.getElementById('header-right');
+    const backdrop=document.getElementById('nav-backdrop');
+    const bar=document.querySelector('.invicta-header .header-bar');
+    function setHeaderHeight(){ document.documentElement.style.setProperty('--hdrH',(bar?bar.offsetHeight:64)+'px'); }
+    setHeaderHeight();
+    function openMenu(){ setHeaderHeight(); right.classList.add('active'); burger.classList.add('active'); burger.setAttribute('aria-expanded','true'); backdrop.classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeMenu(){ right.classList.remove('active'); burger.classList.remove('active'); burger.setAttribute('aria-expanded','false'); backdrop.classList.remove('show'); document.body.style.overflow='';
+      document.querySelectorAll('.invicta-header .dropdown.open').forEach(d=>{ d.classList.remove('open'); const b=d.querySelector('.dropbtn'); if(b) b.setAttribute('aria-expanded','false'); }); }
+    burger.addEventListener('click',()=> right.classList.contains('active')?closeMenu():openMenu());
+    backdrop.addEventListener('click',closeMenu);
+    window.addEventListener('resize',()=>{ setHeaderHeight(); if(window.matchMedia('(max-width: 992px)').matches===false) closeMenu(); });
+    document.querySelectorAll('.invicta-header .dropdown').forEach(dd=>{
+      const btn=dd.querySelector('.dropbtn'); if(!btn) return;
+      function toggle(e){ if(window.matchMedia('(max-width: 992px)').matches){ e.preventDefault(); const now=dd.classList.toggle('open'); btn.setAttribute('aria-expanded',now?'true':'false'); } }
+      btn.addEventListener('click',toggle,{passive:false});
+      btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(e); } });
+    });
+    document.querySelectorAll('.invicta-header nav a, .invicta-header .dropdown-content a').forEach(a=> a.addEventListener('click',closeMenu));
+  })();
+</script>
+
+<!-- ============ WHATSAPP FLOATING WIDGET ============ -->
+<style>
+  .wa-widget{ position:fixed; right:22px; bottom:22px; z-index:1000001; font-family:'Outfit',sans-serif; }
+  .wa-fab{ position:relative; width:60px; height:60px; border-radius:50%; background:#25D366; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow:0 8px 22px rgba(37,211,102,.45); transition:transform .2s ease; }
+  .wa-fab:hover{ transform:scale(1.06); }
+  .wa-fab svg{ width:34px; height:34px; fill:#fff; position:relative; z-index:1; }
+  .wa-fab::after{ content:""; position:absolute; inset:0; border-radius:50%; box-shadow:0 0 0 0 rgba(37,211,102,.5); animation:wa-pulse 2.2s infinite; }
+  @keyframes wa-pulse{ 0%{ box-shadow:0 0 0 0 rgba(37,211,102,.5);} 70%{ box-shadow:0 0 0 16px rgba(37,211,102,0);} 100%{ box-shadow:0 0 0 0 rgba(37,211,102,0);} }
+  .wa-pop{ position:absolute; right:0; bottom:76px; width:290px; background:#fff; border-radius:16px; box-shadow:0 16px 44px rgba(0,0,0,.24); overflow:hidden; opacity:0; visibility:hidden; transform:translateY(12px) scale(.96); transform-origin:bottom right; transition:opacity .22s ease, transform .22s ease, visibility 0s linear .22s; }
+  .wa-pop.open{ opacity:1; visibility:visible; transform:translateY(0) scale(1); transition-delay:0s; }
+  .wa-pop-head{ background:#075E54; color:#fff; padding:14px 16px; display:flex; align-items:center; gap:10px; }
+  .wa-pop-head .wa-av{ width:34px; height:34px; border-radius:50%; background:#25D366; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .wa-pop-head .wa-av svg{ width:20px; height:20px; fill:#fff; }
+  .wa-pop-head .wa-tt{ font-weight:700; font-size:15px; line-height:1.1; }
+  .wa-pop-head .wa-st{ font-size:12px; opacity:.8; }
+  .wa-pop-close{ margin-left:auto; background:none; border:0; color:#fff; font-size:22px; line-height:1; cursor:pointer; opacity:.85; }
+  .wa-pop-body{ padding:16px; background:#ECE5DD; }
+  .wa-pop-msg{ background:#fff; border-radius:0 10px 10px 10px; padding:12px 14px; margin:0; font-size:14px; line-height:1.55; color:#333; box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .wa-pop-btn{ display:flex; align-items:center; justify-content:center; gap:8px; margin:14px 16px 16px; padding:12px; background:#25D366; color:#fff; text-decoration:none; border-radius:10px; font-weight:700; font-size:14px; transition:background .2s; }
+  .wa-pop-btn:hover{ background:#1ebe5b; }
+  .wa-pop-btn svg{ width:20px; height:20px; fill:#fff; }
+  @media (max-width:560px){ .wa-widget{ right:16px; bottom:16px; } .wa-pop{ width:250px; } }
+</style>
+<div class="wa-widget">
+  <div class="wa-pop" id="wa-pop" role="dialog" aria-label="Chat on WhatsApp">
+    <div class="wa-pop-head">
+      <span class="wa-av"><svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg></span>
+      <div><div class="wa-tt">Invicta Counseling</div><div class="wa-st">Typically replies within minutes</div></div>
+      <button class="wa-pop-close" id="wa-close" aria-label="Close">&times;</button>
+    </div>
+    <div class="wa-pop-body">
+      <p class="wa-pop-msg">Hi there! 👋 Have a question about admissions, scholarships, or our programs? Chat with the Invicta team on WhatsApp.</p>
+    </div>
+    <a class="wa-pop-btn" href="https://wa.me/923175711520?text=Hi%20Invicta%2C%20I%27d%20like%20to%20know%20more%20about%20your%20counseling%20services." target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+      Start Chat
+    </a>
+  </div>
+  <button class="wa-fab" id="wa-fab" aria-label="Chat on WhatsApp" aria-expanded="false">
+    <svg viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.946C.16 5.335 5.495 0 12.05 0a11.82 11.82 0 018.413 3.488 11.82 11.82 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.51 5.26l-.999 3.648 3.978-1.607zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z"/></svg>
+  </button>
+</div>
+<script>
+  (function(){
+    var fab=document.getElementById('wa-fab'), pop=document.getElementById('wa-pop'), x=document.getElementById('wa-close');
+    if(!fab||!pop) return;
+    function set(o){ pop.classList.toggle('open',o); fab.setAttribute('aria-expanded',o?'true':'false'); }
+    fab.addEventListener('click',function(e){ e.stopPropagation(); set(!pop.classList.contains('open')); });
+    if(x) x.addEventListener('click',function(){ set(false); });
+    document.addEventListener('click',function(e){ if(!pop.contains(e.target) && e.target!==fab) set(false); });
+    document.addEventListener('keydown',function(e){ if(e.key==='Escape') set(false); });
+  })();
+</script>
+
+</body>
+</html>

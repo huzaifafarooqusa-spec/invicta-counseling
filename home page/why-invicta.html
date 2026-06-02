@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Why Invicta Section</title>
+    <style>
+        /* --- CSS for Animated Scroll Section --- */
+        
+        /* Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap');
+
+        /* Main Section Container */
+        .why-invicta-section {
+            font-family: 'Outfit', sans-serif;
+            padding: 80px 20px;
+            background-color: #F3F3F3;
+        }
+
+        .why-invicta-container {
+            max-width: 1100px;
+            margin: auto;
+            display: flex;
+            flex-direction: column; /* Main content is now in a single column */
+        }
+        
+        /* Container for each step */
+        .step-row {
+            display: flex;
+            gap: 5%;
+            margin-bottom: 40px; /* Reduced space between rows */
+        }
+        
+        .step-row:last-of-type {
+            margin-bottom: 0;
+        }
+
+        /* Left Column (Icons) */
+        .icon-column {
+            width: 35%;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .icon-wrapper {
+            opacity: 0.3; /* Inactive icons are faded */
+            transition: opacity 0.5s ease;
+        }
+        
+        .icon-wrapper.active {
+            opacity: 1; /* Active icon is fully visible */
+        }
+
+        .icon-wrapper img {
+            max-width: 100px; /* Slightly smaller icons */
+        }
+
+        /* Right Column (Text Content) */
+        .text-column {
+            width: 60%;
+            display: flex;
+            gap: 25px;
+        }
+
+        .number-circle {
+            width: 35px; /* Smaller circle */
+            height: 35px;
+            border-radius: 50%;
+            border: 2px solid #E0E0E0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            color: #0E2D5B;
+            flex-shrink: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .step-row.active .number-circle {
+            background-color: #0E2D5B;
+            color: #FFFFFF;
+            border-color: #0E2D5B;
+        }
+
+        .timeline-line {
+            width: 2px;
+            height: 100%;
+            background-image: linear-gradient(#E0E0E0 33%, rgba(255,255,255,0) 0%); /* Dotted line effect */
+            background-position: right;
+            background-size: 2px 10px;
+            background-repeat: repeat-y;
+            margin-left: 16.5px;
+        }
+        
+        .text-content h3 {
+            margin: 0 0 10px 0;
+            font-size: 20px; /* Reduced font size */
+            font-weight: 800;
+            color: #333;
+        }
+        
+        .text-content p {
+            margin: 0;
+            font-size: 15px; /* Reduced font size */
+            line-height: 1.6;
+            color: #555;
+        }
+        
+        .schedule-button-container {
+            text-align: center; /* Center the button */
+        }
+        
+        .schedule-button {
+            display: inline-block;
+            background-color: #0E2D5B;
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 15px 35px;
+            border-radius: 8px;
+            font-weight: 700;
+            margin-top: 40px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        
+        .schedule-button:hover {
+            background-color: #FCB040;
+            color: #0E2D5B;
+        }
+        
+        /* Responsive for Mobile */
+        @media (max-width: 768px) {
+            .step-row {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .icon-column {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .text-column {
+                width: 100%;
+                flex-direction: column;
+                align-items: center;
+            }
+            .timeline-line {
+                display: none; /* Hide timeline on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- --- HTML for Animated Scroll Section --- -->
+    <section class="why-invicta-section">
+        <div class="why-invicta-container">
+            
+            <!-- Step 1 -->
+            <div class="step-row active" data-step="1">
+                <div class="icon-column">
+                    <div class="icon-wrapper active" data-icon="1">
+                        <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-01.png" alt="All in One Place">
+                    </div>
+                </div>
+                <div class="text-column">
+                    <div class="number-timeline">
+                        <div class="number-circle">01</div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="text-content">
+                        <h3>Everything You Need, All in One Place</h3>
+                        <p>From shortlisting universities to writing essays, building your profile, applying for financial aid, and preparing for the SAT with our partner Tutoria, we guide you through every step.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step-row" data-step="2">
+                <div class="icon-column">
+                    <div class="icon-wrapper" data-icon="2">
+                        <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-07.png" alt="Affordable Counseling">
+                    </div>
+                </div>
+                <div class="text-column">
+                    <div class="number-timeline">
+                        <div class="number-circle">02</div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="text-content">
+                        <h3>Quality Counseling, Made Affordable</h3>
+                        <p>We know how expensive good counseling can be, and how that keeps many students from getting the help they need. That’s why Invicta keeps its counseling packages affordable. This year alone, five students will receive full support completely free through our pro bono program.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="step-row" data-step="3">
+                <div class="icon-column">
+                    <div class="icon-wrapper" data-icon="3">
+                        <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-03.png" alt="Been in Your Shoes">
+                    </div>
+                </div>
+                <div class="text-column">
+                    <div class="number-timeline">
+                        <div class="number-circle">03</div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="text-content">
+                        <h3>We’ve Been in Your Shoes</h3>
+                        <p>We know the stress, the confusion, and the fear of making the wrong choice. We’ve lived it. That’s why we make sure our counseling feels like working with someone who truly gets what you’re going through.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step-row" data-step="4">
+                <div class="icon-column">
+                    <div class="icon-wrapper" data-icon="4">
+                        <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-04.png" alt="Personal Support">
+                    </div>
+                </div>
+                <div class="text-column">
+                    <div class="number-timeline">
+                        <div class="number-circle">04</div>
+                        <div class="timeline-line"></div>
+                    </div>
+                    <div class="text-content">
+                        <h3>Real Support That Feels Personal</h3>
+                        <p>You’re not just filling out forms. You’re making life-changing decisions. We take time to understand your story, your dreams, and your worries. Then we walk with you, step by step, toward your goals.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step-row" data-step="5">
+                <div class="icon-column">
+                    <div class="icon-wrapper" data-icon="5">
+                        <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-05-3.png" alt="With You Every Step">
+                    </div>
+                </div>
+                <div class="text-column">
+                    <div class="number-timeline">
+                        <div class="number-circle">05</div>
+                    </div>
+                    <div class="text-content">
+                        <h3>We’re With You Every Step of the Way</h3>
+                        <p>Getting in is just the start. From choosing between offers and handling scholarship decisions to preparing for your visa, we’re here for it all. Even after you fly out to your dream university, you’ll always be part of the Invicta family.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="schedule-button-container">
+                <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&d=1202351936141031" target="_blank" class="schedule-button">Schedule a Meeting</a>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // --- JavaScript for Animated Scroll Section ---
+        document.addEventListener('DOMContentLoaded', function () {
+            const stepRows = document.querySelectorAll('.step-row');
+            const icons = document.querySelectorAll('.icon-wrapper');
+
+            // Function to update the active state
+            const updateActiveState = (stepNumber) => {
+                // Update rows and number circles
+                stepRows.forEach(row => {
+                    if (row.dataset.step === stepNumber) {
+                        row.classList.add('active');
+                    } else {
+                        row.classList.remove('active');
+                    }
+                });
+
+                // Update icons
+                icons.forEach(icon => {
+                    if (icon.dataset.icon === stepNumber) {
+                        icon.classList.add('active');
+                    } else {
+                        icon.classList.remove('active');
+                    }
+                });
+            };
+
+            // Create an Intersection Observer for SCROLLING
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const stepNumber = entry.target.dataset.step;
+                        updateActiveState(stepNumber);
+                    }
+                });
+            }, {
+                root: null,
+                rootMargin: '-40% 0px -40% 0px', // Activates when element is in the middle 20% of the screen
+                threshold: 0
+            });
+
+            // Observe each step for scrolling and add hover effect
+            stepRows.forEach(row => {
+                observer.observe(row);
+                
+                row.addEventListener('mouseenter', () => {
+                    const stepNumber = row.dataset.step;
+                    updateActiveState(stepNumber);
+                });
+            });
+        });
+    </script>
+
+</body>
+</html>

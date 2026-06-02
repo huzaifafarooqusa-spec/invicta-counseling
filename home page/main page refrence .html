@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invicta Counseling</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ============ GLOBAL TOKENS ============ */
+  :root{ --blue:#0E2D5B; --yellow:#FCB040; --hdrH:64px; }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{ font-family:'Outfit',sans-serif; color:#0E2D5B; background:#fff; }
+  img{ max-width:100%; }
+
+  /* ============ HEADER (provided) ============ */
+  .invicta-header{ position:sticky; top:0; width:100%; background:#fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.05); z-index:999999; isolation:isolate; }
+  .invicta-header .header-bar{ display:flex; align-items:center; gap:24px; padding:14px 20px; }
+  .invicta-header .header-logo img{ max-width:190px; display:block; }
+  .invicta-header .header-right{ margin-left:auto; display:flex; align-items:center; gap:24px; overflow:visible; }
+  .invicta-header nav ul{ display:flex; align-items:center; gap:28px; list-style:none; margin:0; padding:0; }
+  .invicta-header nav>ul>li{ position:relative; }
+  .invicta-header nav>ul>li>a, .invicta-header .dropbtn{
+    color:var(--blue); font-size:16px; font-weight:500; text-decoration:none;
+    position:relative; padding:10px 0; transition:color .25s ease; cursor:pointer; }
+  .invicta-header .dropbtn{ background:transparent; border:0; appearance:none; display:inline-flex; align-items:center; gap:8px; }
+  .invicta-header nav>ul>li>a::after, .invicta-header .dropbtn::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--blue);
+    transform:scaleX(0); transform-origin:center; transition:transform .3s ease; }
+  .invicta-header nav>ul>li>a:hover,
+  .invicta-header .dropdown:hover .dropbtn,
+  .invicta-header .dropdown:focus-within .dropbtn{ color:var(--yellow); }
+  .invicta-header nav>ul>li>a:hover::after,
+  .invicta-header .dropdown:hover .dropbtn::after{ transform:scaleX(1); }
+  .invicta-header .caret{ width:12px; height:12px; color:currentColor; transition:transform .25s; }
+  .invicta-header .dropdown:hover .caret,
+  .invicta-header .dropdown.open .caret{ transform:rotate(180deg); }
+  .invicta-header .dropdown-content{
+    position:absolute; left:0; top:100%; min-width:220px; padding:8px; margin-top:0;
+    background:#fff; color:var(--blue); border:1px solid rgba(14,45,91,.12); border-radius:12px;
+    box-shadow:0 14px 30px rgba(0,0,0,.18),0 3px 10px rgba(0,0,0,.12);
+    opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px) scale(.98);
+    transition:opacity .18s, transform .18s, visibility 0s linear .18s; z-index:1000000; }
+  .invicta-header .dropdown:hover>.dropdown-content,
+  .invicta-header .dropdown:focus-within>.dropdown-content{
+    opacity:1; visibility:visible; pointer-events:auto; transform:translateY(12px) scale(1); }
+  .invicta-header .dropdown-content a{
+    display:block; padding:12px 14px; margin:2px; border-radius:8px; color:var(--blue);
+    text-decoration:none; font-size:15px; font-weight:500; transition:background .2s, transform .12s; }
+  .invicta-header .dropdown-content a:hover{
+    background:linear-gradient(90deg, rgba(252,176,64,.16), rgba(252,176,64,.06) 60%, transparent);
+    transform:translateX(2px); }
+  .invicta-header .header-button{
+    background:var(--blue); color:#fff; text-decoration:none; padding:10px 16px; border-radius:10px; font-weight:700; white-space:nowrap;
+    transition:all .25s ease; }
+  .invicta-header button.header-button{ border:none; cursor:pointer; font-size:15px; font-family:inherit; display:inline-flex; align-items:center; gap:6px; }
+  .invicta-header .header-cta-dropdown{ position:relative; }
+  .invicta-header .header-cta-dropdown .dropbtn::after{ display:none; }
+  .invicta-header .header-cta-dropdown:hover .dropbtn,
+  .invicta-header .header-cta-dropdown:focus-within .dropbtn{
+    background:var(--yellow); color:var(--blue); transform:translateY(-1px); box-shadow:0 4px 10px rgba(0,0,0,.1); }
+  .invicta-header .cta-dropdown-content{ left:auto; right:0; }
+  .invicta-header .mobile-toggle{ display:none; margin-left:auto; width:44px; height:44px; border:0; background:transparent; position:relative; cursor:pointer; }
+  .invicta-header .mobile-toggle::before{ content:""; position:absolute; inset:0; background:var(--blue); border-radius:12px; box-shadow:0 2px 6px rgba(14,45,91,.24); }
+  .invicta-header .mobile-toggle span{ position:absolute; left:10px; right:10px; height:2px; background:#fff; border-radius:2px; transition:transform .25s, opacity .2s; }
+  .invicta-header .mobile-toggle span:nth-child(1){ top:14px; }
+  .invicta-header .mobile-toggle span:nth-child(2){ top:21px; }
+  .invicta-header .mobile-toggle span:nth-child(3){ top:28px; }
+  .invicta-header .mobile-toggle.active span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .invicta-header .mobile-toggle.active span:nth-child(2){ opacity:0; }
+  .invicta-header .mobile-toggle.active span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+  .invicta-header .nav-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.35); opacity:0; visibility:hidden; transition:.2s; z-index:999998; }
+  .invicta-header .nav-backdrop.show{ opacity:1; visibility:visible; }
+  @media (max-width:992px){
+    .invicta-header .header-bar{ padding:12px 16px; }
+    .invicta-header .mobile-toggle{ display:block; }
+    .invicta-header .header-right{
+      display:none; position:fixed; left:0; right:0; top:var(--hdrH); width:100vw;
+      background:#fff; box-shadow:0 12px 24px rgba(0,0,0,.12);
+      padding:22px 18px 22px; z-index:999999; border-bottom:1px solid rgba(14,45,91,.08); border-radius:0 0 18px 18px; }
+    .invicta-header .header-right.active{ display:block; }
+    .invicta-header nav ul{ flex-direction:column; align-items:flex-start; width:100%; gap:10px; }
+    .invicta-header nav>ul>li>a, .invicta-header .dropbtn{ width:100%; padding:16px 10px; font-size:18px; line-height:1.4; }
+    .invicta-header nav>ul>li>a::after, .invicta-header .dropbtn::after{ display:none; }
+    .invicta-header .dropdown-content{
+      position:static; box-shadow:none; border:1px solid rgba(14,45,91,.08);
+      margin:8px 0 10px; border-radius:10px; padding:8px; display:none; opacity:1; visibility:visible; transform:none; transition:none; }
+    .invicta-header .dropdown.open .dropdown-content{ display:block; }
+    .invicta-header .dropdown-content a{ padding:12px 12px; font-size:16px; }
+    .invicta-header button.header-button{ display:flex; justify-content:center; width:100%; margin-top:16px; padding:14px 20px; border-radius:12px; font-size:16px; }
+    .invicta-header .cta-dropdown-content{ right:auto; left:0; }
+  }
+
+  /* ============ HERO ============ */
+  .hero{ position:relative; overflow:hidden; background:#fff; }
+  .hero-inner{ max-width:1200px; margin:auto; display:flex; align-items:center; gap:40px; padding:70px 40px 80px; }
+  .hero-art{ flex:0 0 38%; display:flex; justify-content:center; }
+  /* Placeholder lion mascot — replace src with your real mascot asset */
+  .hero-art svg{ width:100%; max-width:360px; height:auto; opacity:.92; }
+  .hero-copy{ flex:1; }
+  .hero-copy h1{ font-size:40px; font-weight:800; line-height:1.15; margin:0 0 22px; color:var(--blue); }
+  .hero-copy h1 span{ color:var(--yellow); }
+  .hero-copy p{ font-size:18px; line-height:1.7; color:#33415c; margin:0 0 28px; max-width:620px; }
+  .hero-copy p strong{ color:var(--blue); }
+  .hero-cta{ display:inline-block; background:var(--blue); color:#fff; text-decoration:none; padding:15px 32px; border-radius:10px; font-weight:700; transition:all .25s ease; }
+  .hero-cta:hover{ background:var(--yellow); color:var(--blue); transform:translateY(-2px); }
+  @media (max-width:900px){
+    .hero-inner{ flex-direction:column; text-align:center; padding:50px 20px 60px; }
+    .hero-art{ flex:none; max-width:240px; }
+    .hero-copy h1{ font-size:30px; }
+    .hero-copy p{ font-size:16px; margin-left:auto; margin-right:auto; }
+  }
+
+  /* ============ STATS BAR ============ */
+  .stats{ background:#ECECEC; padding:48px 20px; }
+  .stats-inner{ max-width:980px; margin:auto; display:grid; grid-template-columns:repeat(2,1fr); gap:34px 60px; }
+  .stat{ display:flex; align-items:center; gap:20px; }
+  .stat-icon{ width:64px; height:64px; flex-shrink:0; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; }
+  .stat-icon svg{ width:30px; height:30px; fill:var(--yellow); }
+  .stat-num{ font-size:34px; font-weight:800; color:var(--blue); line-height:1; }
+  .stat-label{ font-size:15px; color:#4a5568; margin-top:4px; }
+  @media (max-width:640px){ .stats-inner{ grid-template-columns:1fr; gap:26px; } }
+
+  /* ============ OUR ACCEPTANCES ============ */
+  .acceptances{ background:var(--blue); padding:70px 20px 90px; }
+  .section-heading{ text-align:center; font-size:34px; font-weight:800; letter-spacing:.5px; margin:0 0 50px; }
+  .acceptances .section-heading{ color:#fff; }
+  .acceptances .section-heading span{ color:var(--yellow); }
+  .accept-grid{ max-width:1080px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:28px; }
+  .accept-card{ background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:16px; padding:28px 22px 26px; text-align:center; display:flex; flex-direction:column; align-items:center; }
+  .accept-photo{ width:84px; height:84px; border-radius:50%; object-fit:cover; border:3px solid var(--yellow); background:#cdd5e0; }
+  .accept-name{ color:#fff; font-weight:700; font-size:18px; margin:16px 0 2px; }
+  .accept-school{ color:rgba(255,255,255,.6); font-size:13px; margin-bottom:14px; }
+  .accept-grade{ background:rgba(252,176,64,.16); color:var(--yellow); font-size:12px; font-weight:700; letter-spacing:.5px; padding:6px 16px; border-radius:20px; }
+  .accept-award{ background:#fff; color:var(--blue); border-radius:10px; padding:12px 14px; margin:18px 0; width:100%; font-size:13px; line-height:1.4; }
+  .accept-award b{ display:block; font-size:15px; }
+  .accept-uni{ margin-top:auto; color:#fff; font-weight:700; font-size:16px; letter-spacing:.5px; opacity:.95; }
+  @media (max-width:860px){ .accept-grid{ grid-template-columns:1fr; max-width:420px; } }
+
+  /* ============ TESTIMONIALS ============ */
+  .testimonials{ background:#fff; padding:70px 20px 60px; }
+  .pill{ display:inline-block; background:var(--blue); color:#fff; font-size:13px; font-weight:600; padding:7px 20px; border-radius:20px; }
+  .testimonials .top{ text-align:center; margin-bottom:46px; }
+  .testimonials h2{ font-size:34px; font-weight:800; color:var(--blue); margin:20px auto 0; max-width:640px; line-height:1.25; }
+  .tcards{ max-width:1080px; margin:auto; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .tcard{ background:linear-gradient(160deg,#fafafa,#ededed); border-radius:18px; padding:26px 24px 30px; box-shadow:0 8px 24px rgba(14,45,91,.06); }
+  .tcard-head{ display:flex; align-items:center; gap:14px; }
+  .tavatar{ width:46px; height:46px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--blue); color:#fff; font-weight:700; font-size:16px; object-fit:cover; }
+  .tcard-name{ font-weight:700; font-size:15px; color:var(--blue); }
+  .tcard-role{ font-size:12px; color:#7a8699; }
+  .tquote{ font-size:42px; line-height:0; color:var(--yellow); font-weight:900; margin:18px 0 4px; }
+  .tcard p{ font-size:13.5px; line-height:1.65; color:#444; margin:0; }
+  .tdots{ display:flex; justify-content:center; gap:8px; margin-top:36px; }
+  .tdot{ width:9px; height:9px; border-radius:50%; background:#cfd6e0; }
+  .tdot.active{ background:var(--blue); width:22px; border-radius:5px; }
+  @media (max-width:860px){ .tcards{ grid-template-columns:1fr; max-width:440px; } .testimonials h2{ font-size:26px; } }
+
+  /* ============ WHAT WE PROVIDE ============ */
+  .provide{ background:var(--blue); padding:64px 20px 74px; }
+  .provide .section-heading{ color:#fff; }
+  .provide-wrap{ max-width:1080px; margin:auto; position:relative; }
+  .provide-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:26px; }
+  .pcard{ text-align:center; }
+  .pcard-img{ width:100%; aspect-ratio:16/11; border-radius:12px; object-fit:cover; filter:grayscale(1); background:#27365a; display:block; }
+  .pcard h3{ color:#fff; font-size:19px; font-weight:700; margin:20px 0 10px; }
+  .pcard p{ color:rgba(255,255,255,.72); font-size:14px; line-height:1.6; margin:0 auto; max-width:300px; }
+  .provide-arrow{ position:absolute; top:33%; width:40px; height:40px; border-radius:50%; border:1.5px solid var(--yellow); background:transparent; color:var(--yellow); display:flex; align-items:center; justify-content:center; cursor:pointer; transition:.25s; }
+  .provide-arrow:hover{ background:var(--yellow); color:var(--blue); }
+  .provide-arrow.left{ left:-54px; } .provide-arrow.right{ right:-54px; }
+  @media (max-width:1180px){ .provide-arrow{ display:none; } }
+  @media (max-width:860px){ .provide-grid{ grid-template-columns:1fr; max-width:360px; margin:auto; } }
+
+  /* ============ WHY INVICTA (provided) ============ */
+  .why-invicta-section{ padding:80px 20px; background:#F3F3F3; }
+  .why-invicta-container{ max-width:1100px; margin:auto; display:flex; flex-direction:column; }
+  .why-invicta-section .step-row{ display:flex; gap:5%; margin-bottom:40px; }
+  .why-invicta-section .step-row:last-of-type{ margin-bottom:0; }
+  .why-invicta-section .icon-column{ width:35%; display:flex; justify-content:center; }
+  .why-invicta-section .icon-wrapper{ opacity:.3; transition:opacity .5s ease; }
+  .why-invicta-section .icon-wrapper.active{ opacity:1; }
+  .why-invicta-section .icon-wrapper img{ max-width:100px; }
+  .why-invicta-section .text-column{ width:60%; display:flex; gap:25px; }
+  .why-invicta-section .number-circle{ width:35px; height:35px; border-radius:50%; border:2px solid #E0E0E0; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0E2D5B; flex-shrink:0; transition:all .4s ease; }
+  .why-invicta-section .step-row.active .number-circle{ background-color:#0E2D5B; color:#fff; border-color:#0E2D5B; }
+  .why-invicta-section .timeline-line{ width:2px; height:100%; background-image:linear-gradient(#E0E0E0 33%, rgba(255,255,255,0) 0%); background-position:right; background-size:2px 10px; background-repeat:repeat-y; margin-left:16.5px; }
+  .why-invicta-section .text-content h3{ margin:0 0 10px; font-size:20px; font-weight:800; color:#333; }
+  .why-invicta-section .text-content p{ margin:0; font-size:15px; line-height:1.6; color:#555; }
+  .why-invicta-section .schedule-button-container{ text-align:center; }
+  .why-invicta-section .schedule-button{ display:inline-block; background-color:#0E2D5B; color:#fff; text-decoration:none; padding:15px 35px; border-radius:8px; font-weight:700; margin-top:40px; transition:background-color .3s ease, color .3s ease; }
+  .why-invicta-section .schedule-button:hover{ background-color:#FCB040; color:#0E2D5B; }
+  @media (max-width:768px){
+    .why-invicta-section .step-row{ flex-direction:column; align-items:center; text-align:center; }
+    .why-invicta-section .icon-column{ width:100%; margin-bottom:20px; }
+    .why-invicta-section .text-column{ width:100%; flex-direction:column; align-items:center; }
+    .why-invicta-section .timeline-line{ display:none; }
+  }
+
+  /* ============ SWIPE CTA (provided) ============ */
+  .cta-container{ display:flex; align-items:center; justify-content:space-between; background-color:#FCB040; padding:15px 30px; border-radius:25px; max-width:900px; margin:40px auto; }
+  .cta-content{ display:flex; align-items:center; gap:20px; }
+  .cta-icon img{ width:60px; height:60px; border-radius:50%; }
+  .cta-text h3{ margin:0; font-size:22px; font-weight:900; color:#000; line-height:1.2; letter-spacing:.4px; }
+  .cta-text h3 span{ font-weight:500; font-size:26px; letter-spacing:2.8px; }
+  .animated-button{ display:flex; align-items:center; background-color:#21406E; color:#fff; padding:12px 14px; border-radius:50px; text-decoration:none; overflow:hidden; width:140px; height:56px; box-sizing:border-box; position:relative; transition:all .4s ease; }
+  .button-text{ position:absolute; left:20px; font-weight:700; white-space:nowrap; opacity:0; transform:translateX(-10px); transition:opacity .4s ease .1s, transform .4s ease .1s; color:#fff; }
+  .button-arrow{ display:flex; align-items:center; justify-content:center; background-color:#fff; border-radius:50%; width:32px; height:32px; flex-shrink:0; position:absolute; left:12px; transition:left .5s cubic-bezier(.76,0,.24,1); }
+  .button-arrow svg{ width:18px; height:18px; color:#21406E; }
+  .animated-button:hover .button-text{ opacity:1; transform:translateX(0); }
+  .animated-button:hover .button-arrow{ left:calc(100% - 32px - 12px); }
+  @media (max-width:768px){
+    .cta-container{ flex-direction:column; gap:20px; text-align:center; border-radius:20px; }
+    .cta-content{ flex-direction:column; }
+    .cta-text h3{ font-size:20px; }
+    .cta-text h3 span{ font-size:18px; letter-spacing:2px; }
+  }
+
+  /* ============ FOOTER (provided — dropdown selectors scoped to footer) ============ */
+  .invicta-footer{ background-color:#0E2D5B; color:#fff; padding:80px 40px 60px; }
+  .invicta-footer .footer-container{ max-width:1200px; margin:auto; }
+  .invicta-footer .footer-top{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:30px; padding-bottom:45px; }
+  .invicta-footer .footer-logo img{ max-width:180px; }
+  .invicta-footer .footer-nav nav{ display:flex; gap:35px; flex-wrap:wrap; align-items:center; }
+  .invicta-footer .footer-nav a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; transition:color .3s ease; }
+  .invicta-footer .footer-nav a.nav-link-grey{ color:rgba(255,255,255,.7); }
+  .invicta-footer .footer-nav a:hover, .invicta-footer .dropdown:hover .dropbtn{ color:#FCB040; }
+  .invicta-footer .dropdown{ position:relative; display:inline-block; }
+  .invicta-footer .dropbtn{ color:rgba(255,255,255,.85); font-size:16px; font-weight:500; cursor:pointer; padding:20px 0; margin:-20px 0; display:inline-flex; align-items:center; gap:8px; }
+  .invicta-footer .dropbtn:focus-visible{ outline:2px solid #FCB040; outline-offset:3px; border-radius:6px; }
+  .invicta-footer .dropbtn .caret{ width:12px; height:12px; transition:transform .25s ease, color .25s ease; display:inline-block; }
+  .invicta-footer .dropdown:hover .dropbtn .caret, .invicta-footer .dropdown:focus-within .dropbtn .caret{ transform:rotate(180deg); color:#FCB040; }
+  .invicta-footer .dropdown-content{
+    position:absolute; left:0; top:100%; min-width:220px; background:rgba(255,255,255,.98); color:#0E2D5B; border-radius:10px;
+    box-shadow:0 14px 30px rgba(0,0,0,.18),0 3px 10px rgba(0,0,0,.12); border:1px solid rgba(14,45,91,.12); padding:8px; margin-top:0; z-index:10;
+    opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px) scale(.98);
+    transition:opacity .18s ease, transform .18s ease, visibility 0s linear .18s; backdrop-filter:blur(6px); }
+  .invicta-footer .dropdown-content::before{ content:""; position:absolute; top:-6px; left:18px; width:12px; height:12px; background:#fff; transform:rotate(45deg); border-left:1px solid rgba(14,45,91,.12); border-top:1px solid rgba(14,45,91,.12); }
+  .invicta-footer .dropdown:hover .dropdown-content, .invicta-footer .dropdown:focus-within .dropdown-content{ opacity:1; visibility:visible; pointer-events:auto; transform:translateY(12px) scale(1); transition-delay:0s; }
+  .invicta-footer .dropdown-content a{ position:relative; display:block; text-decoration:none; color:#0E2D5B; padding:10px 14px; border-radius:8px; font-size:15px; font-weight:500; transition:background .22s ease, color .22s ease, transform .12s ease; margin:2px; }
+  .invicta-footer .dropdown-content a::before{ content:""; position:absolute; left:8px; top:8px; bottom:8px; width:3px; border-radius:2px; background:#FCB040; opacity:0; transform:scaleY(.4); transition:transform .22s ease, opacity .22s ease; }
+  .invicta-footer .dropdown-content a:hover{ background:linear-gradient(90deg, rgba(252,176,64,.16), rgba(252,176,64,.06) 60%, transparent); color:#0E2D5B; transform:translateX(2px); }
+  .invicta-footer .dropdown-content a:hover::before{ opacity:1; transform:scaleY(1); }
+  .invicta-footer .footer-social{ display:flex; gap:15px; }
+  .invicta-footer .footer-social a{ display:flex; align-items:center; justify-content:center; width:40px; height:40px; border:1.5px solid #fff; border-radius:50%; transition:all .3s ease; }
+  .invicta-footer .footer-social a:hover{ border-color:#FCB040; }
+  .invicta-footer .footer-social a:hover svg{ fill:#FCB040; }
+  .invicta-footer .footer-social svg{ width:20px; height:20px; fill:#fff; transition:fill .3s ease; }
+  .invicta-footer .footer-bottom{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:30px; padding-top:45px; border-top:1px solid rgba(255,255,255,.3); }
+  .invicta-footer .footer-contact{ display:flex; gap:50px; flex-wrap:wrap; }
+  .invicta-footer .contact-item{ display:flex; align-items:center; gap:15px; }
+  .invicta-footer .contact-icon img{ width:45px; height:45px; }
+  .invicta-footer .contact-text span{ display:block; font-size:14px; color:rgba(255,255,255,.7); }
+  .invicta-footer .contact-text a{ color:#fff; text-decoration:none; font-size:16px; font-weight:500; }
+  .invicta-footer .footer-copyright{ font-size:14px; color:rgba(255,255,255,.7); }
+  @media (max-width:992px){
+    .invicta-footer .footer-top, .invicta-footer .footer-bottom{ flex-direction:column; text-align:center; }
+    .invicta-footer .footer-logo{ order:-1; }
+    .invicta-footer .footer-nav nav{ justify-content:center; }
+    .invicta-footer .footer-bottom{ padding-top:30px; margin-top:30px; }
+    .invicta-footer .dropdown-content{ left:50%; transform:translate(-50%,8px) scale(.98); }
+    .invicta-footer .dropdown:hover .dropdown-content, .invicta-footer .dropdown:focus-within .dropdown-content{ transform:translate(-50%,12px) scale(1); }
+    .invicta-footer .dropdown-content::before{ left:calc(50% - 6px); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="invicta-header">
+  <div class="header-bar">
+    <a href="https://invicta-counseling.org/" class="header-logo" aria-label="Invicta Home">
+      <img src="https://invicta-counseling.org/wp-content/uploads/2022/08/cropped-Untitled-2-1-2.png" alt="Invicta Counseling Logo">
+    </a>
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" aria-controls="header-right" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="header-right" id="header-right">
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="https://invicta-counseling.org/">Home</a></li>
+          <li class="dropdown">
+            <button type="button" class="dropbtn" aria-haspopup="true" aria-expanded="false" aria-controls="offer-menu">
+              What We Offer
+              <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+            </button>
+            <div class="dropdown-content" id="offer-menu" role="menu">
+              <a href="https://invicta-counseling.org/" role="menuitem">Undergraduate Counseling</a>
+              <a href="https://invicta-counseling.org/pro-bono-seat/" role="menuitem">Pro Bono Seats</a>
+              <a href="https://invicta-counseling.org/profile-building/" role="menuitem">Profile Building</a>
+              <a href="https://invicta-counseling.org/master-counseling/" role="menuitem">Master's Counseling</a>
+            </div>
+          </li>
+          <li><a href="https://invicta-counseling.org/blogs/">Blogs</a></li>
+          <li><a href="https://invicta-counseling.org/about-us/">About Us</a></li>
+        </ul>
+      </nav>
+      <div class="dropdown header-cta-dropdown">
+        <button type="button" class="header-button dropbtn" aria-haspopup="true" aria-expanded="false" aria-controls="cta-menu">
+          Book Free Meeting
+          <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+        </button>
+        <div class="dropdown-content cta-dropdown-content" id="cta-menu" role="menu">
+          <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Undergraduate Counseling</a>
+          <a href="https://form.asana.com/?k=d3CR-iZLk2vxBxOdeE1Sig&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Pro Bono Seats</a>
+          <a href="https://form.asana.com/?k=uAo75kRr_KeA3Fmzf-_8Sg&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Profile Building</a>
+          <a href="https://form.asana.com/?k=odA8_V8bwx4GhKWsyxEfjA&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Master's Counseling</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop"></div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-art" aria-hidden="true">
+      <!-- PLACEHOLDER lion mascot. Swap this SVG for your real mascot image. -->
+      <svg viewBox="0 0 200 240" xmlns="http://www.w3.org/2000/svg">
+        <g fill="#0E2D5B">
+          <path d="M100 18c-20 0-32 14-38 30-8 4-18 14-20 30-1 10 2 18 6 24-6 8-10 20-8 34 2 16 12 28 22 36 4 12 16 22 36 22s32-10 36-22c10-8 20-20 22-36 2-14-2-26-8-34 4-6 7-14 6-24-2-16-12-26-20-30-6-16-18-30-34-30z"/>
+        </g>
+        <circle cx="84" cy="96" r="6" fill="#FCB040"/>
+        <circle cx="116" cy="96" r="6" fill="#FCB040"/>
+        <path d="M88 120c6 6 18 6 24 0" stroke="#FCB040" stroke-width="4" fill="none" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="hero-copy">
+      <h1>Your Path to a <span>Top University</span>, Guided Every Step.</h1>
+      <p>Invicta Counseling stands to be the only college counseling firm that is made up entirely by students for students. Comprising of mentors who currently belong to top institutions around the world, we work diligently to ensure that <strong>'Quality yet Affordable'</strong> counseling is available for students.</p>
+      <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&d=1202351936141031" target="_blank" rel="noopener" class="hero-cta">Book a Free Meeting</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS BAR ============ -->
+<section class="stats">
+  <div class="stats-inner">
+    <div class="stat">
+      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 3 1 9l11 6 9-4.9V17h2V9L12 3zm-7 9.2v3.4c0 1.7 3.1 3.4 7 3.4s7-1.7 7-3.4v-3.4l-7 3.8-7-3.8z"/></svg></div>
+      <div><div class="stat-num">250+</div><div class="stat-label">Student Acceptances</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zm6.9 6h-2.9a15.7 15.7 0 00-1.4-3.6A8 8 0 0118.9 8zM12 4c.8 1.1 1.5 2.5 1.9 4h-3.8C10.5 6.5 11.2 5.1 12 4zM4.3 14a8 8 0 010-4h3.3a17 17 0 000 4H4.3zm.8 2h2.9c.3 1.3.8 2.5 1.4 3.6A8 8 0 015.1 16zM8 8H5.1a8 8 0 014.3-3.6A15.7 15.7 0 008 8zm4 12c-.8-1.1-1.5-2.5-1.9-4h3.8c-.4 1.5-1.1 2.9-1.9 4zm2.3-6H9.7a14.7 14.7 0 010-4h4.6a14.7 14.7 0 010 4zm.3 5.6c.6-1.1 1.1-2.3 1.4-3.6h2.9a8 8 0 01-4.3 3.6zM16.4 14a17 17 0 000-4h3.3a8 8 0 010 4h-3.3z"/></svg></div>
+      <div><div class="stat-num">5</div><div class="stat-label">Country Acceptances</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M13 3h-2v2.1c-2 .4-3.5 1.7-3.5 3.7 0 2.4 2.1 3.2 4.2 3.7 2 .5 2.8.9 2.8 1.9 0 .8-.7 1.6-2.5 1.6-1.7 0-2.5-.8-2.6-1.9H6.8c.1 2 1.6 3.3 4.2 3.7V21h2v-2.1c2.1-.4 3.6-1.7 3.6-3.8 0-2.6-2.3-3.4-4.4-3.9-1.8-.4-2.6-.8-2.6-1.7 0-.8.6-1.5 2.3-1.5 1.6 0 2.3.7 2.4 1.7h2.5c-.1-1.8-1.4-3.1-3.2-3.5V3z"/></svg></div>
+      <div><div class="stat-num">8,807,106</div><div class="stat-label">Total Scholarships</div></div>
+    </div>
+    <div class="stat">
+      <div class="stat-icon"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20 10 10 0 000-20zM8.5 9a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm7 0a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM12 18c-2.3 0-4.3-1.4-5.2-3.4h10.4C16.3 16.6 14.3 18 12 18z"/></svg></div>
+      <div><div class="stat-num">100%</div><div class="stat-label">Placement Rate</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OUR ACCEPTANCES ============ -->
+<section class="acceptances">
+  <h2 class="section-heading"><span>OUR</span> ACCEPTANCES</h2>
+  <div class="accept-grid">
+    <div class="accept-card">
+      <div class="accept-photo" role="img" aria-label="Biah Umer"></div>
+      <div class="accept-name">BIAH UMER</div>
+      <div class="accept-school">SICAS DHA</div>
+      <span class="accept-grade">O LEVEL: 10A* 1A</span>
+      <div class="accept-award"><b>£33,000 / annum</b>Warwick Undergraduate — Full Tuition Award</div>
+      <div class="accept-uni">WARWICK</div>
+    </div>
+    <div class="accept-card">
+      <div class="accept-photo" role="img" aria-label="Rania Faisal"></div>
+      <div class="accept-name">RANIA FAISAL</div>
+      <div class="accept-school">Beaconhouse School System</div>
+      <span class="accept-grade">O LEVEL: 7A* 3As</span>
+      <div class="accept-award"><b>100% Need Met</b>Karen McKellin International Leader of Tomorrow Award</div>
+      <div class="accept-uni">UNIVERSITY OF BRITISH COLUMBIA</div>
+    </div>
+    <div class="accept-card">
+      <div class="accept-photo" role="img" aria-label="Muhammad Raahim"></div>
+      <div class="accept-name">MUHAMMAD RAAHIM</div>
+      <div class="accept-school">Future World College</div>
+      <span class="accept-grade">O LEVEL: 9A*</span>
+      <div class="accept-award"><b>$62,440 / annum</b>Financial Aid Award</div>
+      <div class="accept-uni">NYU ABU DHABI</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials">
+  <div class="top">
+    <span class="pill">Testimonials</span>
+    <h2>HERE'S WHAT OUR CLIENTS ARE SAYING ABOUT US</h2>
+  </div>
+  <div class="tcards">
+    <div class="tcard">
+      <div class="tcard-head">
+        <div class="tavatar">DN</div>
+        <div><div class="tcard-name">Diyaan Xavahir Nauman</div><div class="tcard-role">Swarthmore College</div></div>
+      </div>
+      <div class="tquote">&ldquo;</div>
+      <p>For me, university applications felt like diving into deep waters without knowing how to swim. Invicta gave me the structure, reassurance, and belief I desperately needed. Their mentorship turned my anxiety into clarity, and I saw real progress with every session. The personalized support and consistent motivation from the team made all the difference. They were a lifeline.</p>
+    </div>
+    <div class="tcard">
+      <div class="tcard-head">
+        <div class="tavatar">FA</div>
+        <div><div class="tcard-name">Fatima Aftab</div><div class="tcard-role">New York University Abu Dhabi</div></div>
+      </div>
+      <div class="tquote">&ldquo;</div>
+      <p>Before Invicta, my experience with 1:1 counseling felt vague and impersonal. Invicta completely shifted that. From day one, their team offered professional, structured, and consistent support. They helped me build my extracurriculars, improve my SAT score, and navigate each step with clarity and confidence. With their help, I was invited to the NYUAD Candidate Weekend and eventually got accepted. Invicta believed in me when I doubted myself.</p>
+    </div>
+    <div class="tcard">
+      <div class="tcard-head">
+        <div class="tavatar">FZ</div>
+        <div><div class="tcard-name">Fizza</div><div class="tcard-role">Mount Holyoke</div></div>
+      </div>
+      <div class="tquote">&ldquo;</div>
+      <p>Invicta played a major role in shaping my successful college application. They helped me build strong, coherent essays and activities that reflected my personal growth and passion. Their insights allowed me to identify gaps in my application and fix them well before submission. Thanks to their dedication, my application stood out and I felt truly confident through each step.</p>
+    </div>
+  </div>
+  <div class="tdots"><span class="tdot active"></span><span class="tdot"></span><span class="tdot"></span></div>
+</section>
+
+<!-- ============ WHAT WE PROVIDE YOU ============ -->
+<section class="provide">
+  <h2 class="section-heading">WHAT WE PROVIDE YOU</h2>
+  <div class="provide-wrap">
+    <button class="provide-arrow left" aria-label="Previous">&#8592;</button>
+    <div class="provide-grid">
+      <div class="pcard">
+        <div class="pcard-img"></div>
+        <h3>Free Demo Session</h3>
+        <p>Start with a free demo session to explore your needs and see how Invicta can guide you through the admissions process.</p>
+      </div>
+      <div class="pcard">
+        <div class="pcard-img"></div>
+        <h3>College Shortlisting &amp; Major Guidance</h3>
+        <p>Get expert guidance to shortlist the right colleges and choose a major that matches your passions, strengths, and future goals.</p>
+      </div>
+      <div class="pcard">
+        <div class="pcard-img"></div>
+        <h3>Essay &amp; Application Review</h3>
+        <p>Make your story stand out with expert feedback on your essays and applications.</p>
+      </div>
+    </div>
+    <button class="provide-arrow right" aria-label="Next">&#8594;</button>
+  </div>
+</section>
+
+<!-- ============ WHY STUDENTS CHOOSE INVICTA ============ -->
+<section class="why-invicta-section">
+  <h2 class="section-heading" style="color:#0E2D5B;">WHY STUDENTS CHOOSE INVICTA?</h2>
+  <div class="why-invicta-container">
+    <div class="step-row active" data-step="1">
+      <div class="icon-column"><div class="icon-wrapper active" data-icon="1"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-01.png" alt="All in One Place"></div></div>
+      <div class="text-column">
+        <div class="number-timeline"><div class="number-circle">01</div><div class="timeline-line"></div></div>
+        <div class="text-content"><h3>Everything You Need, All in One Place</h3><p>From shortlisting universities to writing essays, building your profile, applying for financial aid, and preparing for the SAT with our partner Tutoria, we guide you through every step.</p></div>
+      </div>
+    </div>
+    <div class="step-row" data-step="2">
+      <div class="icon-column"><div class="icon-wrapper" data-icon="2"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-07.png" alt="Affordable Counseling"></div></div>
+      <div class="text-column">
+        <div class="number-timeline"><div class="number-circle">02</div><div class="timeline-line"></div></div>
+        <div class="text-content"><h3>Quality Counseling, Made Affordable</h3><p>We know how expensive good counseling can be, and how that keeps many students from getting the help they need. That's why Invicta keeps its counseling packages affordable. This year alone, five students will receive full support completely free through our pro bono program.</p></div>
+      </div>
+    </div>
+    <div class="step-row" data-step="3">
+      <div class="icon-column"><div class="icon-wrapper" data-icon="3"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-03.png" alt="Been in Your Shoes"></div></div>
+      <div class="text-column">
+        <div class="number-timeline"><div class="number-circle">03</div><div class="timeline-line"></div></div>
+        <div class="text-content"><h3>We've Been in Your Shoes</h3><p>We know the stress, the confusion, and the fear of making the wrong choice. We've lived it. That's why we make sure our counseling feels like working with someone who truly gets what you're going through.</p></div>
+      </div>
+    </div>
+    <div class="step-row" data-step="4">
+      <div class="icon-column"><div class="icon-wrapper" data-icon="4"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-04.png" alt="Personal Support"></div></div>
+      <div class="text-column">
+        <div class="number-timeline"><div class="number-circle">04</div><div class="timeline-line"></div></div>
+        <div class="text-content"><h3>Real Support That Feels Personal</h3><p>You're not just filling out forms. You're making life-changing decisions. We take time to understand your story, your dreams, and your worries. Then we walk with you, step by step, toward your goals.</p></div>
+      </div>
+    </div>
+    <div class="step-row" data-step="5">
+      <div class="icon-column"><div class="icon-wrapper" data-icon="5"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/why-05-3.png" alt="With You Every Step"></div></div>
+      <div class="text-column">
+        <div class="number-timeline"><div class="number-circle">05</div></div>
+        <div class="text-content"><h3>We're With You Every Step of the Way</h3><p>Getting in is just the start. From choosing between offers and handling scholarship decisions to preparing for your visa, we're here for it all. Even after you fly out to your dream university, you'll always be part of the Invicta family.</p></div>
+      </div>
+    </div>
+    <div class="schedule-button-container">
+      <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&d=1202351936141031" target="_blank" class="schedule-button">Schedule a Meeting</a>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SWIPE CTA ============ -->
+<div class="cta-container">
+  <div class="cta-content">
+    <div class="cta-icon"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/news-1.png" alt="College Application Icon"></div>
+    <div class="cta-text"><h3><span>SWIPE TO START YOUR</span><br>APPLICATION JOURNEY NOW!</h3></div>
+  </div>
+  <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&d=1202351936141031" target="_blank" class="animated-button">
+    <span class="button-text">Book Now</span>
+    <span class="button-arrow">
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </span>
+  </a>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<footer class="invicta-footer">
+  <div class="footer-container">
+    <div class="footer-top">
+      <div class="footer-logo"><a href="https://invicta-counseling.org/"><img src="https://invicta-counseling.org/wp-content/uploads/2022/12/new-logowhite-1-e1754768434959.png" alt="Invicta Counseling Logo"></a></div>
+      <div class="footer-nav">
+        <nav>
+          <a href="https://invicta-counseling.org/">Home</a>
+          <div class="dropdown">
+            <span class="dropbtn" tabindex="0" aria-haspopup="true">What We Offer
+              <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+            </span>
+            <div class="dropdown-content" role="menu">
+              <a href="https://invicta-counseling.org/" role="menuitem">Undergraduate Counseling</a>
+              <a href="https://invicta-counseling.org/pro-bono-seat/" role="menuitem">Pro Bono Seats</a>
+              <a href="https://invicta-counseling.org/profile-building/" role="menuitem">Profile Building</a>
+              <a href="https://invicta-counseling.org/master-counseling/" role="menuitem">Master's Counseling</a>
+            </div>
+          </div>
+          <a href="https://invicta-counseling.org/blogs/" class="nav-link-grey">Blogs</a>
+          <a href="https://invicta-counseling.org/about-us/" class="nav-link-grey">About Us</a>
+        </nav>
+      </div>
+      <div class="footer-social">
+        <a href="https://wa.me/923175711520" target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" role="img" aria-hidden="true"><path fill-rule="evenodd" clip-rule="evenodd" d="M20.52 3.48A11.77 11.77 0 0 0 12.02 1C5.46 1 .12 6.34.12 12.9c0 2.1.55 4.15 1.6 5.97L0 24l6.28-1.64a11.9 11.9 0 0 0 5.73 1.47h.01c6.62 0 11.96-5.32 11.96-11.9 0-3.2-1.25-6.2-3.46-8.45ZM12 21.4a9.5 9.5 0 1 1 0-19 9.5 9.5 0 0 1 0 19Zm5.43-7.15c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.16-.2.31-.77.97-.95 1.17-.18.21-.35.23-.65.08-.3-.15-1.25-.46-2.39-1.47-.88-.77-1.48-1.72-1.66-2-.17-.31 0-.47.13-.62.13-.15.3-.38.45-.57.15-.18.2-.31.3-.52.1-.2.05-.39-.03-.54-.08-.16-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.08-.79.38-.27.31-1.03 1-1.03 2.44s1.06 2.83 1.2 3.02c.15.2 2.08 3.17 5.03 4.45.7.3 1.24.48 1.66.62.7.22 1.34.19 1.84.12.56-.08 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.43-.07-.14-.27-.22-.56-.37Z"/></svg></a>
+        <a href="https://www.linkedin.com/company/invicta-career-counseling" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg></a>
+        <a href="https://www.facebook.com/InvictaCounseling" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg></a>
+        <a href="https://www.instagram.com/invictacounseling/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-contact">
+        <div class="contact-item"><div class="contact-icon"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/Button.png" alt="Call Icon"></div><div class="contact-text"><span>Have a question?</span><a href="tel:+923175711520">+92 317 5711520</a></div></div>
+        <div class="contact-item"><div class="contact-icon"><img src="https://invicta-counseling.org/wp-content/uploads/2025/08/Buttonmail.png" alt="Mail Icon"></div><div class="contact-text"><span>Or write to us @</span><a href="mailto:support@invicta-counseling.org">support@invicta-counseling.org</a></div></div>
+      </div>
+      <div class="footer-copyright">© 2026 Invicta Counselling, All Rights Reserved</div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ===== Header mobile menu (provided) ===== */
+  (function(){
+    const burger=document.getElementById('mobile-toggle');
+    const right=document.getElementById('header-right');
+    const backdrop=document.getElementById('nav-backdrop');
+    const bar=document.querySelector('.invicta-header .header-bar');
+    function setHeaderHeight(){ document.documentElement.style.setProperty('--hdrH',(bar?bar.offsetHeight:64)+'px'); }
+    setHeaderHeight();
+    function openMenu(){ setHeaderHeight(); right.classList.add('active'); burger.classList.add('active'); burger.setAttribute('aria-expanded','true'); backdrop.classList.add('show'); document.body.style.overflow='hidden'; }
+    function closeMenu(){ right.classList.remove('active'); burger.classList.remove('active'); burger.setAttribute('aria-expanded','false'); backdrop.classList.remove('show'); document.body.style.overflow='';
+      document.querySelectorAll('.invicta-header .dropdown.open').forEach(d=>{ d.classList.remove('open'); const b=d.querySelector('.dropbtn'); if(b) b.setAttribute('aria-expanded','false'); }); }
+    burger.addEventListener('click',()=> right.classList.contains('active')?closeMenu():openMenu());
+    backdrop.addEventListener('click',closeMenu);
+    window.addEventListener('resize',()=>{ setHeaderHeight(); if(window.matchMedia('(max-width: 992px)').matches===false) closeMenu(); });
+    document.querySelectorAll('.invicta-header .dropdown').forEach(dd=>{
+      const btn=dd.querySelector('.dropbtn'); if(!btn) return;
+      function toggle(e){ if(window.matchMedia('(max-width: 992px)').matches){ e.preventDefault(); const now=dd.classList.toggle('open'); btn.setAttribute('aria-expanded',now?'true':'false'); } }
+      btn.addEventListener('click',toggle,{passive:false});
+      btn.addEventListener('keydown',(e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(e); } });
+    });
+    document.querySelectorAll('.invicta-header nav a, .invicta-header .dropdown-content a').forEach(a=> a.addEventListener('click',closeMenu));
+  })();
+
+  /* ===== Why Invicta scroll animation (provided) ===== */
+  document.addEventListener('DOMContentLoaded',function(){
+    const stepRows=document.querySelectorAll('.step-row');
+    const icons=document.querySelectorAll('.icon-wrapper');
+    const updateActiveState=(n)=>{
+      stepRows.forEach(r=> r.classList.toggle('active', r.dataset.step===n));
+      icons.forEach(i=> i.classList.toggle('active', i.dataset.icon===n));
+    };
+    const observer=new IntersectionObserver((entries)=>{ entries.forEach(e=>{ if(e.isIntersecting) updateActiveState(e.target.dataset.step); }); },
+      { root:null, rootMargin:'-40% 0px -40% 0px', threshold:0 });
+    stepRows.forEach(r=>{ observer.observe(r); r.addEventListener('mouseenter',()=>updateActiveState(r.dataset.step)); });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Header Section</title>
+</head>
+<body>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+  :root{ --blue:#0E2D5B; --yellow:#FCB040; --hdrH:64px; }
+
+  .invicta-header{ position:sticky; top:0; width:100%; background:#fff;
+    box-shadow:0 2px 10px rgba(0,0,0,.05); z-index:999999; isolation:isolate;
+    font-family:'Outfit',sans-serif; }
+  .invicta-header .header-bar{ display:flex; align-items:center; gap:24px; padding:14px 20px; }
+  .invicta-header .header-logo img{ max-width:190px; display:block; }
+
+  .invicta-header .header-right{ margin-left:auto; display:flex; align-items:center; gap:24px; overflow:visible; }
+  .invicta-header nav ul{ display:flex; align-items:center; gap:28px; list-style:none; margin:0; padding:0; }
+  .invicta-header nav>ul>li{ position:relative; }
+
+  .invicta-header nav>ul>li>a, .invicta-header .dropbtn{
+    color:var(--blue); font-size:16px; font-weight:500; text-decoration:none;
+    position:relative; padding:10px 0; transition:color .25s ease; cursor:pointer;
+  }
+  .invicta-header .dropbtn{ background:transparent; border:0; appearance:none; display:inline-flex; align-items:center; gap:8px; }
+  .invicta-header nav>ul>li>a::after, .invicta-header .dropbtn::after{
+    content:""; position:absolute; left:0; right:0; bottom:0; height:2px; background:var(--blue);
+    transform:scaleX(0); transform-origin:center; transition:transform .3s ease;
+  }
+  .invicta-header nav>ul>li>a:hover,
+  .invicta-header .dropdown:hover .dropbtn,
+  .invicta-header .dropdown:focus-within .dropbtn{ color:var(--yellow); }
+  .invicta-header nav>ul>li>a:hover::after,
+  .invicta-header .dropdown:hover .dropbtn::after{ transform:scaleX(1); }
+
+  .invicta-header .caret{ width:12px; height:12px; color:currentColor; transition:transform .25s; }
+  .invicta-header .dropdown:hover .caret,
+  .invicta-header .dropdown.open .caret{ transform:rotate(180deg); }
+
+  /* Desktop dropdown */
+  .invicta-header .dropdown-content{
+    position:absolute; left:0; top:100%; min-width:220px; padding:8px; margin-top:0;
+    background:#fff; color:var(--blue); border:1px solid rgba(14,45,91,.12); border-radius:12px;
+    box-shadow:0 14px 30px rgba(0,0,0,.18),0 3px 10px rgba(0,0,0,.12);
+    opacity:0; visibility:hidden; pointer-events:none; transform:translateY(8px) scale(.98);
+    transition:opacity .18s, transform .18s, visibility 0s linear .18s; z-index:1000000;
+  }
+  .invicta-header .dropdown:hover>.dropdown-content,
+  .invicta-header .dropdown:focus-within>.dropdown-content{
+    opacity:1; visibility:visible; pointer-events:auto; transform:translateY(12px) scale(1);
+  }
+  .invicta-header .dropdown-content a{
+    display:block; padding:12px 14px; margin:2px; border-radius:8px; color:var(--blue);
+    text-decoration:none; font-size:15px; font-weight:500; transition:background .2s, transform .12s;
+  }
+  .invicta-header .dropdown-content a:hover{
+    background:linear-gradient(90deg, rgba(252,176,64,.16), rgba(252,176,64,.06) 60%, transparent);
+    transform:translateX(2px);
+  }
+
+  /* Modified CTA Button Styles (Size Reduced) */
+  .invicta-header .header-button{
+    background:var(--blue); color:#fff; text-decoration:none; padding:10px 16px; border-radius:10px; font-weight:700; white-space:nowrap;
+    transition:all .25s ease;
+  }
+  .invicta-header button.header-button {
+    border: none; cursor: pointer; font-size: 15px; font-family: inherit; display: inline-flex; align-items: center; gap: 6px;
+  }
+  
+  /* CTA Dropdown Specific Rules */
+  .invicta-header .header-cta-dropdown { position: relative; }
+  .invicta-header .header-cta-dropdown .dropbtn::after { display: none; } /* Remove underline effect for CTA */
+  
+  /* Button hovers yellow */
+  .invicta-header .header-cta-dropdown:hover .dropbtn, 
+  .invicta-header .header-cta-dropdown:focus-within .dropbtn { 
+    background: var(--yellow); 
+    color: var(--blue); 
+    transform: translateY(-1px); 
+    box-shadow: 0 4px 10px rgba(0,0,0,.1);
+  }
+  
+  .invicta-header .cta-dropdown-content { left: auto; right: 0; } /* Align dropdown to right edge of button */
+
+  /* Mobile */
+  .invicta-header .mobile-toggle{ display:none; margin-left:auto; width:44px; height:44px; border:0; background:transparent; position:relative; cursor:pointer; }
+  .invicta-header .mobile-toggle::before{ content:""; position:absolute; inset:0; background:var(--blue); border-radius:12px; box-shadow:0 2px 6px rgba(14,45,91,.24); }
+  .invicta-header .mobile-toggle span{ position:absolute; left:10px; right:10px; height:2px; background:#fff; border-radius:2px; transition:transform .25s, opacity .2s; }
+  .invicta-header .mobile-toggle span:nth-child(1){ top:14px; }
+  .invicta-header .mobile-toggle span:nth-child(2){ top:21px; }
+  .invicta-header .mobile-toggle span:nth-child(3){ top:28px; }
+  .invicta-header .mobile-toggle.active span:nth-child(1){ transform:translateY(7px) rotate(45deg); }
+  .invicta-header .mobile-toggle.active span:nth-child(2){ opacity:0; }
+  .invicta-header .mobile-toggle.active span:nth-child(3){ transform:translateY(-7px) rotate(-45deg); }
+
+  .invicta-header .nav-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,.35); opacity:0; visibility:hidden; transition:.2s; z-index:999998; }
+  .invicta-header .nav-backdrop.show{ opacity:1; visibility:visible; }
+
+  @media (max-width:992px){
+    .invicta-header .header-bar{ padding:12px 16px; }
+    .invicta-header .mobile-toggle{ display:block; }
+
+    /* full-width mobile panel */
+    .invicta-header .header-right{
+      display:none; position:fixed; left:0; right:0; top:var(--hdrH); width:100vw;
+      background:#fff; box-shadow:0 12px 24px rgba(0,0,0,.12);
+      padding:22px 18px 22px; z-index:999999; border-bottom:1px solid rgba(14,45,91,.08); border-radius:0 0 18px 18px;
+    }
+    .invicta-header .header-right.active{ display:block; }
+
+    .invicta-header nav ul{ flex-direction:column; align-items:flex-start; width:100%; gap:10px; }
+    .invicta-header nav>ul>li>a, .invicta-header .dropbtn{ width:100%; padding:16px 10px; font-size:18px; line-height:1.4; }
+    .invicta-header nav>ul>li>a::after, .invicta-header .dropbtn::after{ display:none; }
+
+    .invicta-header .dropdown-content{
+      position:static; box-shadow:none; border:1px solid rgba(14,45,91,.08);
+      margin:8px 0 10px; border-radius:10px; padding:8px; display:none; opacity:1; visibility:visible; transform:none; transition:none;
+    }
+    .invicta-header .dropdown.open .dropdown-content{ display:block; }
+    .invicta-header .dropdown-content a{ padding:12px 12px; font-size:16px; }
+
+    /* Mobile CTA Button reduced size */
+    .invicta-header button.header-button { display:flex; justify-content:center; width:100%; margin-top:16px; padding:14px 20px; border-radius:12px; font-size:16px; }
+    .invicta-header .cta-dropdown-content { right: auto; left: 0; }
+  }
+</style>
+
+<header class="invicta-header">
+  <div class="header-bar">
+    <a href="https://invicta-counseling.org/" class="header-logo" aria-label="Invicta Home">
+      <img src="https://invicta-counseling.org/wp-content/uploads/2022/08/cropped-Untitled-2-1-2.png" alt="Invicta Counseling Logo">
+    </a>
+
+    <button class="mobile-toggle" id="mobile-toggle" aria-label="Toggle menu" aria-controls="header-right" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="header-right" id="header-right">
+      <nav aria-label="Primary">
+        <ul>
+          <li><a href="https://invicta-counseling.org/">Home</a></li>
+
+          <li class="dropdown">
+            <button type="button" class="dropbtn" aria-haspopup="true" aria-expanded="false" aria-controls="offer-menu">
+              What We Offer
+              <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+            </button>
+            <div class="dropdown-content" id="offer-menu" role="menu">
+              <a href="https://invicta-counseling.org/" role="menuitem">Undergraduate Counseling</a>
+              <a href="https://invicta-counseling.org/pro-bono-seat/" role="menuitem">Pro Bono Seats</a>
+              <a href="https://invicta-counseling.org/profile-building/" role="menuitem">Profile Building</a>
+              <a href="https://invicta-counseling.org/master-counseling/" role="menuitem">Master's Counseling</a>
+            </div>
+          </li>
+
+          <li><a href="https://invicta-counseling.org/blogs/">Blogs</a></li>
+          <li><a href="https://invicta-counseling.org/about-us/">About Us</a></li>
+        </ul>
+      </nav>
+
+      <div class="dropdown header-cta-dropdown">
+        <button type="button" class="header-button dropbtn" aria-haspopup="true" aria-expanded="false" aria-controls="cta-menu">
+          Book Free Meeting
+          <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+        </button>
+        <div class="dropdown-content cta-dropdown-content" id="cta-menu" role="menu">
+          <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Undergraduate Counseling</a>
+          <a href="https://form.asana.com/?k=d3CR-iZLk2vxBxOdeE1Sig&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Pro Bono Seats</a>
+          <a href="https://form.asana.com/?k=uAo75kRr_KeA3Fmzf-_8Sg&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Profile Building</a>
+          <a href="https://form.asana.com/?k=odA8_V8bwx4GhKWsyxEfjA&amp;d=1202351936141031" target="_blank" rel="noopener" role="menuitem">Master's Counseling</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="nav-backdrop" id="nav-backdrop"></div>
+</header>
+
+<script>
+  (function(){
+    const burger   = document.getElementById('mobile-toggle');
+    const right    = document.getElementById('header-right');
+    const backdrop = document.getElementById('nav-backdrop');
+    const bar      = document.querySelector('.invicta-header .header-bar');
+
+    function setHeaderHeight(){
+      document.documentElement.style.setProperty('--hdrH', (bar ? bar.offsetHeight : 64) + 'px');
+    }
+    setHeaderHeight();
+
+    function openMenu(){
+      setHeaderHeight();
+      right.classList.add('active'); burger.classList.add('active');
+      burger.setAttribute('aria-expanded','true'); backdrop.classList.add('show');
+      document.body.style.overflow='hidden';
+    }
+    function closeMenu(){
+      right.classList.remove('active'); burger.classList.remove('active');
+      burger.setAttribute('aria-expanded','false'); backdrop.classList.remove('show');
+      document.body.style.overflow='';
+      document.querySelectorAll('.invicta-header .dropdown.open').forEach(d=>{
+        d.classList.remove('open'); const b=d.querySelector('.dropbtn'); if(b) b.setAttribute('aria-expanded','false');
+      });
+    }
+
+    burger.addEventListener('click', ()=> right.classList.contains('active') ? closeMenu() : openMenu());
+    backdrop.addEventListener('click', closeMenu);
+    window.addEventListener('resize', ()=>{ setHeaderHeight(); if (window.matchMedia('(max-width: 992px)').matches===false) closeMenu(); });
+
+    // Mobile dropdown accordion
+    document.querySelectorAll('.invicta-header .dropdown').forEach(dd=>{
+      const btn = dd.querySelector('.dropbtn'); if(!btn) return;
+      function toggle(e){
+        if(window.matchMedia('(max-width: 992px)').matches){
+          e.preventDefault();
+          const now = dd.classList.toggle('open');
+          btn.setAttribute('aria-expanded', now ? 'true' : 'false');
+        }
+      }
+      btn.addEventListener('click', toggle, {passive:false});
+      btn.addEventListener('keydown', (e)=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); toggle(e); } });
+    });
+
+    // Close on nav click
+    document.querySelectorAll('.invicta-header nav a, .invicta-header .dropdown-content a').forEach(a=> a.addEventListener('click', closeMenu));
+  })();
+</script>
+
+</body>
+</html>

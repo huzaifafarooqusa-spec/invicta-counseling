@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Footer Section (Enhanced Dropdown)</title>
+    <style>
+        /* Google Fonts */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;700&display=swap');
+
+        /* Main Footer Styling */
+        .invicta-footer {
+            background-color: #0E2D5B;
+            color: #FFFFFF;
+            font-family: 'Outfit', sans-serif;
+            padding: 80px 40px 60px 40px;
+        }
+
+        .footer-container { max-width: 1200px; margin: auto; }
+
+        /* Top part of the footer */
+        .footer-top {
+            display: flex; justify-content: space-between; align-items: center;
+            flex-wrap: wrap; gap: 30px; padding-bottom: 45px;
+        }
+        .footer-logo img { max-width: 180px; }
+
+        .footer-nav nav { display: flex; gap: 35px; flex-wrap: wrap; align-items: center; }
+        .footer-nav a {
+            color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 500; transition: color .3s ease;
+        }
+        .footer-nav a.nav-link-grey { color: rgba(255,255,255,.7); }
+        .footer-nav a:hover, .dropdown:hover .dropbtn { color: #FCB040; }
+
+        /* --- Dropdown Styling (Enhanced) --- */
+        .dropdown { position: relative; display: inline-block; }
+        .dropbtn {
+            color: rgba(255,255,255,.85); font-size: 16px; font-weight: 500; font-family: 'Outfit', sans-serif;
+            cursor: pointer; padding: 20px 0; margin: -20px 0; /* keep layout but enlarge hover zone */
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .dropbtn:focus-visible { outline: 2px solid #FCB040; outline-offset: 3px; border-radius: 6px; }
+        .dropbtn .caret { width: 12px; height: 12px; transition: transform .25s ease, color .25s ease; display: inline-block; }
+        .dropdown:hover .dropbtn .caret, .dropdown:focus-within .dropbtn .caret { transform: rotate(180deg); color: #FCB040; }
+
+        .dropdown-content {
+            position: absolute; left: 0; top: 100%; min-width: 220px;
+            background: rgba(255,255,255,0.98); color: #0E2D5B; border-radius: 10px;
+            box-shadow: 0 14px 30px rgba(0,0,0,.18), 0 3px 10px rgba(0,0,0,.12);
+            border: 1px solid rgba(14,45,91,.12);
+            padding: 8px; margin-top: 0; z-index: 10;
+
+            /* Smooth open/close */
+            opacity: 0; visibility: hidden; pointer-events: none;
+            transform: translateY(8px) scale(.98);
+            transition: opacity .18s ease, transform .18s ease, visibility 0s linear .18s;
+            -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+        }
+        /* small arrow pointer */
+        .dropdown-content::before {
+            content: ""; position: absolute; top: -6px; left: 18px; width: 12px; height: 12px; background: #fff;
+            transform: rotate(45deg); border-left: 1px solid rgba(14,45,91,.12); border-top: 1px solid rgba(14,45,91,.12);
+        }
+        .dropdown:hover .dropdown-content,
+        .dropdown:focus-within .dropdown-content {
+            opacity: 1; visibility: visible; pointer-events: auto;
+            transform: translateY(12px) scale(1);
+            transition-delay: 0s;
+        }
+
+        .dropdown-content a {
+            position: relative; display: block; text-decoration: none; color: #0E2D5B;
+            padding: 10px 14px; border-radius: 8px; font-size: 15px; font-weight: 500;
+            transition: background .22s ease, color .22s ease, transform .12s ease;
+            margin: 2px 2px;
+        }
+        /* left accent + subtle slide */
+        .dropdown-content a::before {
+            content: ""; position: absolute; left: 8px; top: 8px; bottom: 8px; width: 3px; border-radius: 2px;
+            background: #FCB040; opacity: 0; transform: scaleY(.4); transition: transform .22s ease, opacity .22s ease;
+        }
+        .dropdown-content a:hover, .dropdown-content a:focus-visible {
+            background: linear-gradient(90deg, rgba(252,176,64,0.16), rgba(252,176,64,0.06) 60%, transparent 100%);
+            color: #0E2D5B; transform: translateX(2px);
+        }
+        .dropdown-content a:hover::before, .dropdown-content a:focus-visible::before { opacity: 1; transform: scaleY(1); }
+
+        .footer-social { display: flex; gap: 15px; }
+        .footer-social a { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1.5px solid #FFFFFF; border-radius: 50%; transition: all .3s ease; }
+        .footer-social a:hover { border-color: #FCB040; }
+        .footer-social a:hover svg { fill: #FCB040; }
+        .footer-social svg { width: 20px; height: 20px; fill: #FFFFFF; transition: fill .3s ease; }
+
+        /* Bottom part of the footer */
+        .footer-bottom { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 30px; padding-top: 45px; border-top: 1px solid rgba(255,255,255,.3); }
+        .footer-contact { display: flex; gap: 50px; flex-wrap: wrap; }
+        .contact-item { display: flex; align-items: center; gap: 15px; }
+        .contact-icon img { width: 45px; height: 45px; }
+        .contact-text span { display: block; font-size: 14px; color: rgba(255,255,255,.7); }
+        .contact-text a { color: #FFFFFF; text-decoration: none; font-size: 16px; font-weight: 500; }
+        .footer-copyright { font-size: 14px; color: rgba(255,255,255,.7); }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .footer-top, .footer-bottom { flex-direction: column; text-align: center; }
+            .footer-logo { order: -1; }
+            .footer-nav nav { justify-content: center; }
+            .footer-bottom { padding-top: 30px; margin-top: 30px; }
+            .dropdown-content { left: 50%; transform: translate(-50%, 8px) scale(.98); }
+            .dropdown:hover .dropdown-content, .dropdown:focus-within .dropdown-content { transform: translate(-50%, 12px) scale(1); }
+            .dropdown-content::before { left: calc(50% - 6px); }
+        }
+    </style>
+</head>
+<body>
+
+    <footer class="invicta-footer">
+        <div class="footer-container">
+            <!-- Footer Top Section: Logo, Nav, Socials -->
+            <div class="footer-top">
+                <div class="footer-logo">
+                    <a href="https://invicta-counseling.org/">
+                        <img src="https://invicta-counseling.org/wp-content/uploads/2022/12/new-logowhite-1-e1754768434959.png" alt="Invicta Counseling Logo" />
+                    </a>
+                </div>
+                <div class="footer-nav">
+                    <nav>
+                        <a href="https://invicta-counseling.org/">Home</a>
+                        <div class="dropdown">
+                            <span class="dropbtn" tabindex="0" aria-haspopup="true">What We Offer
+                                <svg class="caret" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M7.41 8.58 12 13.17l4.59-4.59L18 10l-6 6-6-6z"/></svg>
+                            </span>
+                            <div class="dropdown-content" role="menu">
+                                <a href="https://invicta-counseling.org/" role="menuitem">Undergraduate Counseling</a>
+                                <a href="https://invicta-counseling.org/pro-bono-seat/" role="menuitem">Pro Bono Seats</a>
+                                <a href="https://invicta-counseling.org/profile-building/" role="menuitem">Profile Building</a>
+                                <a href="https://invicta-counseling.org/master-counseling/" role="menuitem">Master's Counseling</a>
+                            </div>
+                        </div>
+                        <a href="https://invicta-counseling.org/blogs/" class="nav-link-grey">Blogs</a>
+                        <a href="https://invicta-counseling.org/about-us/" class="nav-link-grey">About Us</a>
+                
+                    </nav>
+                </div>
+                <div class="footer-social">
+                    <!-- WhatsApp Icon -->
+                    <a href="https://wa.me/923175711520" target="_blank" rel="noopener" aria-label="WhatsApp">
+                        <svg viewBox="0 0 24 24" role="img" aria-hidden="true">
+                            <path fill-rule="evenodd" clip-rule="evenodd" d="M20.52 3.48A11.77 11.77 0 0 0 12.02 1C5.46 1 .12 6.34.12 12.9c0 2.1.55 4.15 1.6 5.97L0 24l6.28-1.64a11.9 11.9 0 0 0 5.73 1.47h.01c6.62 0 11.96-5.32 11.96-11.9 0-3.2-1.25-6.2-3.46-8.45ZM12 21.4a9.5 9.5 0 1 1 0-19 9.5 9.5 0 0 1 0 19Zm5.43-7.15c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.16-.2.31-.77.97-.95 1.17-.18.21-.35.23-.65.08-.3-.15-1.25-.46-2.39-1.47-.88-.77-1.48-1.72-1.66-2-.17-.31 0-.47.13-.62.13-.15.3-.38.45-.57.15-.18.2-.31.3-.52.1-.2.05-.39-.03-.54-.08-.16-.67-1.62-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.08-.79.38-.27.31-1.03 1-1.03 2.44s1.06 2.83 1.2 3.02c.15.2 2.08 3.17 5.03 4.45.7.3 1.24.48 1.66.62.7.22 1.34.19 1.84.12.56-.08 1.76-.72 2.01-1.42.25-.7.25-1.3.17-1.43-.07-.14-.27-.22-.56-.37Z"/>
+                        </svg>
+                    </a>
+                    <a href="https://www.linkedin.com/company/invicta-career-counseling" target="_blank" rel="noopener" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                    </a>
+                    <a href="https://www.facebook.com/InvictaCounseling" target="_blank" rel="noopener" aria-label="Facebook">
+                        <svg viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                    </a>
+                    <a href="https://www.instagram.com/invictacounseling/" target="_blank" rel="noopener" aria-label="Instagram">
+                        <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.85s-.011 3.584-.069 4.85c-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07s-3.584-.012-4.85-.07c-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.85s.012-3.584.07-4.85c.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.85-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948s.014 3.667.072 4.947c.2 4.358 2.618 6.78 6.98 6.98 1.281.059 1.689.073 4.948.073s3.667-.014 4.947-.072c4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948s-.014-3.667-.072-4.947c-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.689-.073-4.948-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.162 6.162 6.162 6.162-2.759 6.162-6.162-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4s1.791-4 4-4 4 1.79 4 4-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44 1.441-.645 1.441-1.44-.645-1.44-1.441-1.44z"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Footer Bottom Section: Contact, Copyright -->
+            <div class="footer-bottom">
+                <div class="footer-contact">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/Button.png" alt="Call Icon" />
+                        </div>
+                        <div class="contact-text">
+                            <span>Have a question?</span>
+                            <a href="tel:+923175711520">+92 317 5711520</a>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/Buttonmail.png" alt="Mail Icon" />
+                        </div>
+                        <div class="contact-text">
+                            <span>Or write to us @</span>
+                            <a href="mailto:support@invicta-counseling.org">support@invicta-counseling.org</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="footer-copyright">© 2026 Invicta Counselling, All Rights Reserved</div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

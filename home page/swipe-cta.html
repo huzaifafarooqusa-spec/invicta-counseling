@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Animated CTA Section</title>
+    <style>
+        /* Google Fonts ko import karna */
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;900&display=swap');
+
+        /* Poore section ka container */
+        .cta-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #FCB040; /* Orange background */
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-family: 'Outfit', sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+        }
+
+        /* Left side ka content (Icon aur Text) */
+        .cta-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cta-icon img {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+        }
+
+        /* UPDATED: Heading ka style for perfect alignment */
+        .cta-text h3 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 900; /* Bold */
+            color: #000000;
+            line-height: 1.2;
+            letter-spacing: 0.4px; 
+        }
+        
+        .cta-text h3 span {
+            font-weight: 500; /* Normal weight */
+            font-size: 26px; /* Font size remains smaller */
+            letter-spacing: 2.8px; /* UPDATED: Increased letter spacing to match width */
+        }
+
+        /* --- FINAL ANIMATED BUTTON STYLING --- */
+        .animated-button {
+            display: flex;
+            align-items: center;
+            background-color: #21406E;
+            color: #FFFFFF;
+            padding: 12px 14px;
+            border-radius: 50px;
+            text-decoration: none;
+            overflow: hidden;
+            width: 140px; 
+            height: 56px;
+            box-sizing: border-box; 
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        /* Button ka text */
+        .button-text {
+            position: absolute;
+            left: 20px; 
+            font-weight: 700;
+            white-space: nowrap;
+            opacity: 0; 
+            transform: translateX(-10px);
+            transition: opacity 0.4s ease 0.1s, transform 0.4s ease 0.1s;
+            color: #FFFFFF;
+        }
+
+        /* Button ka arrow */
+        .button-arrow {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #FFFFFF;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            position: absolute;
+            left: 12px;
+            transition: left 0.5s cubic-bezier(0.76, 0, 0.24, 1); 
+        }
+        
+        .button-arrow svg {
+            width: 18px;
+            height: 18px;
+            color: #21406E;
+        }
+
+        /* --- Hover State --- */
+        .animated-button:hover .button-text {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .animated-button:hover .button-arrow {
+            left: calc(100% - 32px - 12px);
+        }
+        
+        /* Responsive for Mobile */
+        @media (max-width: 768px) {
+            .cta-container {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+                border-radius: 20px;
+            }
+            .cta-content {
+                flex-direction: column;
+            }
+            .cta-text h3 {
+                font-size: 20px;
+            }
+            .cta-text h3 span {
+                font-size: 18px;
+                letter-spacing: 2px;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="cta-container">
+        <div class="cta-content">
+            <div class="cta-icon">
+                <img src="https://invicta-counseling.org/wp-content/uploads/2025/08/news-1.png" alt="College Application Icon">
+            </div>
+            <div class="cta-text">
+                <h3><span>SWIPE TO START YOUR</span><br>APPLICATION JOURNEY NOW!</h3>
+            </div>
+        </div>
+        <a href="https://form.asana.com/?k=dvT_56DA9i8Hn_feyJfF2Q&d=1202351936141031" target="_blank" class="animated-button">
+            <span class="button-text">Book Now</span>
+            <span class="button-arrow">
+                <!-- Arrow Icon SVG -->
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+        </a>
+    </div>
+
+</body>
+</html>
