@@ -10,7 +10,7 @@
 <style>
   :root{ --blue:#0E2D5B; --yellow:#FCB040; --hdrH:64px; }
   *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; }
+  html,body{ margin:0; padding:0; overflow-x:hidden; max-width:100%; }
   body{ font-family:'Outfit',sans-serif; color:#0E2D5B; background:#fff; }
   img{ max-width:100%; display:block; }
 
@@ -101,14 +101,14 @@
 
   /* ============ STATS BAR ============ */
   .stats-bar{ background:#fff; padding:50px 6vw 70px; }
-  .stat-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:30px; max-width:1000px; margin:auto; }
+  .stat-grid{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:30px; max-width:1000px; margin:auto; }
   .stat{ text-align:center; }
   .stat-icon{ width:52px; height:52px; margin:0 auto 14px; border-radius:50%; background:var(--blue); display:flex; align-items:center; justify-content:center; }
   .stat-icon svg{ width:26px; height:26px; fill:var(--yellow); }
   .stat-num{ font-size:clamp(24px,2.4vw,34px); font-weight:800; color:var(--blue); line-height:1; }
   .stat-num.counter::after{ content:attr(data-suffix); }
   .stat-label{ font-size:14px; color:#555; margin-top:8px; font-weight:500; }
-  @media (max-width:760px){ .stat-grid{ grid-template-columns:repeat(2,1fr); gap:36px 20px; } }
+  @media (max-width:760px){ .stat-grid{ grid-template-columns:repeat(2,minmax(0,1fr)); gap:36px 20px; } }
 
   /* ============ VISION (blue) ============ */
   .vision{ background:var(--blue); color:#fff; padding:70px 20px; }
