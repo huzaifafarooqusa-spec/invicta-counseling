@@ -721,7 +721,7 @@
     function isMobile(){ return window.matchMedia('(max-width:860px)').matches; }
     function setHeight(){
       if(isMobile()){ section.style.height='auto'; goM(curM); }
-      else{ section.style.height=(numRows*60+40)+'vh'; cur=0; track.style.transform='translateY(0)'; dots.forEach((d,i)=>d.classList.toggle('active',i===0)); }
+      else{ section.style.height=(numRows*40+20)+'vh'; cur=0; track.style.transform='translateY(0)'; dots.forEach((d,i)=>d.classList.toggle('active',i===0)); }
     }
     window.addEventListener('resize',setHeight);
 
